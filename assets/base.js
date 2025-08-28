@@ -248,3 +248,50 @@ document.querySelectorAll('.shopify-localization-form button').forEach(btn => {
     btn.closest('form').submit()
   })
 })
+
+// Hover Dropdown Menu Enhancement
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdowns = document.querySelectorAll('.nav-desktop-menu .dropdown');
+  
+  dropdowns.forEach(dropdown => {
+    const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+    let timeout;
+    
+    // 鼠标进入主菜单项
+    dropdown.addEventListener('mouseenter', function() {
+      clearTimeout(timeout);
+      dropdownMenu.style.display = 'block';
+      setTimeout(() => {
+        dropdownMenu.style.opacity = '1';
+        dropdownMenu.style.visibility = 'visible';
+      }, 10);
+    });
+    
+    // 鼠标离开主菜单项
+    dropdown.addEventListener('mouseleave', function() {
+      timeout = setTimeout(() => {
+        dropdownMenu.style.opacity = '0';
+        dropdownMenu.style.visibility = 'hidden';
+        setTimeout(() => {
+          dropdownMenu.style.display = 'none';
+        }, 300);
+      }, 150); // 150ms 延迟，避免鼠标移动到子菜单时关闭
+    });
+    
+    // 鼠标进入子菜单
+    dropdownMenu.addEventListener('mouseenter', function() {
+      clearTimeout(timeout);
+    });
+    
+    // 鼠标离开子菜单
+    dropdownMenu.addEventListener('mouseleave', function() {
+      timeout = setTimeout(() => {
+        dropdownMenu.style.opacity = '0';
+        dropdownMenu.style.visibility = 'hidden';
+        setTimeout(() => {
+          dropdownMenu.style.display = 'none';
+        }, 300);
+      }, 100);
+    });
+  });
+});

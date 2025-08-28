@@ -11,9 +11,7 @@
       {% else %}
         <a 
           class="nav-link dropdown-toggle {% if link.child_active %}active{% endif %}" 
-          href="#"
-          data-bs-toggle="dropdown" 
-          data-bs-display="static"
+          href="{{ link.url }}"
           aria-expanded="false"
           role="button">
           {{ link.title }}
