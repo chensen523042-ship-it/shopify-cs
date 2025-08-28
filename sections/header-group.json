@@ -72,7 +72,7 @@
             "container_max_width": "",
             "logo": "shopify://shop_images/bestmow.png",
             "logo_height": 32,
-            "main_menu": "main-menu",
+            "main_menu": "customer-account-main-menu",
             "pt": 5,
             "pb": 5
           }
