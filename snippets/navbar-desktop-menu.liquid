@@ -1,5 +1,5 @@
 <ul class="nav-desktop-menu nav justify-content-center">
-  {% for link in linklists[block.settings.main_menu].links %}
+  {% for link in linklists[block1.settings.main_menu].links %}
     <li class="nav-item {% if link.links %}dropdown{% endif %}">
       {% if link.links == blank %}
         <a
@@ -16,22 +16,108 @@
           role="button">
           {{ link.title }}
         </a>
-        <ul class="dropdown-menu">
-          {% for child_link in link.links %}
-            <li>
-              {% if child_link.title == '-' %}
-                <hr class="dropdown-divider">
-              {% else %}
-                <a 
-                  class="dropdown-item {% if child_link.active %}active{% endif %}" 
-                  href="{{ child_link.url }}"
-                  aria-current="{% if child_link.active %}page{% endif %}">
-                  {{ child_link.title }}
-                </a>
-              {% endif %}
-            </li>
-          {% endfor %}
-        </ul>
+        <div class="dropdown-menu mega-menu">
+          <div class="container">
+            <div class="row">
+              <!-- 左侧菜单链接 -->
+              <div class="col-md-4">
+                <ul class="nav flex-column">
+                  {% for child_link in link.links %}
+                    <li>
+                      {% if child_link.title == '-' %}
+                        <hr class="dropdown-divider">
+                      {% else %}
+                        <a 
+                          class="dropdown-item {% if child_link.active %}active{% endif %}" 
+                          href="{{ child_link.url }}"
+                          aria-current="{% if child_link.active %}page{% endif %}">
+                          {{ child_link.title }}
+                        </a>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              
+              <!-- 右侧产品信息展示 -->
+              <div class="col-md-8">
+                  {% if link.title == 'T-Shirt' %}
+                   <div class="product-showcase">
+                     <h6 class="showcase-title">Featured T-Shirts</h6>
+                     <div class="row">
+                       {% assign t_shirt_products = collections['Shirt'] %}
+                       {% for product in t_shirt_products.products %}
+                         <div class="col-6">
+                           <div class="product-card">
+                             <div class="product-image">
+                               {% if product.featured_image %}
+                                 <img src="{{ product.featured_image | image_url: width: 150, height: 150, crop: 'center' }}" alt="{{ product.title }}" width="150" height="150">
+                               {% else %}
+                                 <div style="width: 150px; height: 150px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 0.375rem;">
+                                   <span style="color: #6c757d; font-size: 0.875rem;">T-Shirt Image</span>
+                                 </div>
+                               {% endif %}
+                             </div>
+                             <div class="product-info">
+                               <h6 class="product-name">{{ product.title }}</h6>
+                               <p class="product-price">{{ product.price | money }}</p>
+                               <p class="product-desc">100% Cotton, Comfortable fit</p>
+                             </div>
+                           </div>
+                         </div>
+                       {% endfor %}
+                     </div>
+                   </div>
+                                 {% elsif link.title == 'flower' %}
+                   <div class="product-showcase">
+                     <h6 class="showcase-title">Fresh Flowers</h6>
+                     <div class="row">
+                       {% assign flower_products = collections['flowers'] %}
+                       {% for product in flower_products.products %}
+                         <div class="col-6">
+                           <div class="product-card">
+                             <div class="product-image">
+                               {% if product.featured_image %}
+                                 <img src="{{ product.featured_image | image_url: width: 150, height: 150, crop: 'center' }}" alt="{{ product.title }}" width="150" height="150">
+                               {% else %}
+                                 <div style="width: 150px; height: 150px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 0.375rem;">
+                                   <span style="color: #6c757d; font-size: 0.875rem;">Flower Image</span>
+                                 </div>
+                               {% endif %}
+                             </div>
+                             <div class="product-info">
+                               <h6 class="product-name">{{ product.title }}</h6>
+                               <p class="product-price">{{ product.price | money }}</p>
+                               <p class="product-desc">Fresh seasonal flowers</p>
+                             </div>
+                           </div>
+                         </div>
+                       {% endfor %}
+                     </div>
+                   </div>
+                {% else %}
+                  <!-- 其他菜单的默认子菜单 -->
+                  <ul class="nav flex-column">
+                    {% for child_link in link.links %}
+                      <li>
+                        {% if child_link.title == '-' %}
+                          <hr class="dropdown-divider">
+                        {% else %}
+                          <a 
+                            class="dropdown-item {% if child_link.active %}active{% endif %}" 
+                            href="{{ child_link.url }}"
+                            aria-current="{% if child_link.active %}page{% endif %}">
+                            {{ child_link.title }}
+                          </a>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
       {% endif %}
     </li>
   {% endfor %}

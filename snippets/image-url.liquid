@@ -24,6 +24,13 @@
   assign orientation = orientation | default: 'square'
   assign loading = loading | default: 'lazy'
 
+  # 检查图片对象是否有效
+  if img == blank
+    assign img_valid = false
+  else
+    assign img_valid = true
+  endif
+
   case orientation
     when 'ratio-1x1'
       assign width = size
@@ -34,7 +41,7 @@
     when 'ratio-16x9'
       assign width = size
       assign height = size | divided_by: 16 | times: 9 | round
-      when 'ratio-21x9'
+    when 'ratio-21x9'
       assign width = size
       assign height = size | divided_by: 21 | times: 9 | round
     when 'ratio-3x4'
@@ -47,8 +54,13 @@
       assign width = size | divided_by: 21 | times: 9 | round
       assign height = size
     else
-      assign width  = size
-      assign height = size | divided_by: img.aspect_ratio | round
+      if img_valid and img.aspect_ratio != blank
+        assign width  = size
+        assign height = size | divided_by: img.aspect_ratio | round
+      else
+        assign width = size
+        assign height = size
+      endif
   endcase
 
   if scale
@@ -60,13 +72,20 @@
   endif
 %}
 
+{% if img_valid %}
 <img
   src="{{ img | image_url: width: width_scaled, height: height_scaled, crop: 'center' }}"
   class="img-fluid {{ class }}"
-  alt="{{ img.alt }}"
+  alt="{{ img.alt | default: 'Product image' }}"
   width="{{ width }}"
   height="{{ height }}"
   loading="{{ loading }}">
+{% else %}
+<!-- 图片对象无效或为空 -->
+<div class="img-fluid {{ class }}" style="width: {{ width }}px; height: {{ height }}px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; color: #6c757d;">
+  <span>No image</span>
+</div>
+{% endif %}
 
 {% liquid
   # theme-check-enable ImgLazyLoading 

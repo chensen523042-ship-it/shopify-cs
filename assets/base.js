@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
           dropdownMenu.style.display = 'none';
         }, 300);
-      }, 150); // 150ms 延迟，避免鼠标移动到子菜单时关闭
+      }, 200); // 增加延迟时间，给用户更多时间移动到mega menu
     });
     
     // 鼠标进入子菜单
@@ -290,8 +290,16 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdownMenu.style.visibility = 'hidden';
         setTimeout(() => {
           dropdownMenu.style.display = 'none';
-        }, 300);
-      }, 100);
+        }, 150);
+      }, 150);
+    });
+  });
+  
+  // 为产品卡片添加点击事件
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      // 这里可以添加跳转到产品页面的逻辑
+      console.log('Product card clicked:', this.querySelector('.product-name').textContent);
     });
   });
 });

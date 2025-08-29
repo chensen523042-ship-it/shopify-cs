@@ -1047,6 +1047,43 @@
     ]
   },
   {
+    "name": "Mega Menu Images",
+    "settings": [
+      {
+        "type": "header",
+        "content": "T-Shirt Menu Images"
+      },
+      {
+        "type": "image_picker",
+        "id": "t_shirt_image_1",
+        "label": "T-Shirt Image 1",
+        "info": "Casual Comfort Tee image"
+      },
+      {
+        "type": "image_picker",
+        "id": "t_shirt_image_2",
+        "label": "T-Shirt Image 2",
+        "info": "Designer Collection image"
+      },
+      {
+        "type": "header",
+        "content": "Flower Menu Images"
+      },
+      {
+        "type": "image_picker",
+        "id": "flower_image_1",
+        "label": "Flower Image 1",
+        "info": "Rose Bundle image"
+      },
+      {
+        "type": "image_picker",
+        "id": "flower_image_2",
+        "label": "Flower Image 2",
+        "info": "Mixed Bouquet image"
+      }
+    ]
+  },
+  {
     "name": "Features",
     "settings": [
       {
