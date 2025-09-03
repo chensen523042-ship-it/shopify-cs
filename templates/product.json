@@ -99,11 +99,8 @@
             "label": "What we promise",
             "max_width": "460",
             "img_size": 24,
-            "img_1": "shopify://shop_images/icon-star.svg",
             "text_1": "<p>Commitment to<br/>Excellence</p>",
-            "img_2": "shopify://shop_images/hand-thumbs-up.svg",
             "text_2": "<p>100% Satisfaction<br/>Guarantee</p>",
-            "img_3": "shopify://shop_images/icon-truck.svg",
             "text_3": "<p>Free Shipping<br/>Over $90</p>",
             "text_4": "",
             "pt": 0,
@@ -223,6 +220,21 @@
         "pb": 10
       }
     },
+    "product_accessories_dmm7NX": {
+      "type": "product-accessories",
+      "name": "Product Accessories",
+      "settings": {
+        "heading": "配件",
+        "metafield_namespace": "custom",
+        "metafield_key": "accessories",
+        "columns_desktop": 4,
+        "show_when_empty": false,
+        "empty_text": "暂未配置配件。请在产品的 Accessories 元字段里添加。",
+        "view_all_link": "",
+        "view_all_text": "查看全部",
+        "color_scheme": "background-1"
+      }
+    },
     "1710322973d29fae05": {
       "type": "apps",
       "settings": {}
@@ -277,6 +289,7 @@
   },
   "order": [
     "8f4f1b58-133b-491a-a7b2-8bf2e6fbc583",
+    "product_accessories_dmm7NX",
     "1710322973d29fae05",
     "8b8acb35-e69e-4471-a6cb-d0a09485fb41",
     "20426219-2b04-4ec4-9f23-1ed81a76c181"
