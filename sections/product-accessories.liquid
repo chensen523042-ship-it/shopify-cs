@@ -1,0 +1,100 @@
+{% comment %}
+  Section: Product Accessories (for your theme using 'product-card' snippet)
+  Data source: product.metafields[namespace][key]  (List of product references)
+  Default metafield: custom.accessories
+{% endcomment %}
+
+{% liquid
+  assign ns = section.settings.metafield_namespace | default: 'custom'
+  assign key = section.settings.metafield_key | default: 'accessories'
+  assign accessories = product.metafields[ns][key].value
+  assign heading = section.settings.heading | default: '配件'
+  assign columns = section.settings.columns_desktop | default: 4
+%}
+
+{% if accessories != blank and accessories.size > 0 %}
+<section class="page-width section-{{ section.id }} color-{{ section.settings.color_scheme }}">
+  {% if heading != blank %}
+    <div class="title-wrapper-with-link">
+      <h2 class="title h2">{{ heading }}</h2>
+      {% if section.settings.view_all_link != blank %}
+        <a href="{{ section.settings.view_all_link }}" class="link underlined-link">
+          {{ section.settings.view_all_text | default: '查看全部' }}
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <ul class="accessories-grid grid" role="list"
+      style="--cols: {{ columns | at_most: 5 }};">
+    {% for item in accessories %}
+      <li class="grid__item accessories-grid__item">
+        {%- render 'product-card', product: item -%}
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% elsif section.settings.show_when_empty %}
+<section class="page-width section-{{ section.id }} color-{{ section.settings.color_scheme }}">
+  {% if heading != blank %}
+    <div class="title-wrapper-with-link">
+      <h2 class="title h2">{{ heading }}</h2>
+    </div>
+  {% endif %}
+  <p class="color-foreground-subtle">
+    {{ section.settings.empty_text | default: '暂未配置配件。请在产品的 Accessories 元字段里添加。' }}
+  </p>
+</section>
+{% endif %}
+
+<style>
+  /* 简单自适应栅格，复用主题的 .grid__item */
+  .section-{{ section.id }} .accessories-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+    gap: 2rem;
+  }
+  @media (max-width: 989px) {
+    .section-{{ section.id }} .accessories-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+  @media (max-width: 599px) {
+    .section-{{ section.id }} .accessories-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product Accessories",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "标题", "default": "配件" },
+    { "type": "text", "id": "metafield_namespace", "label": "Metafield namespace", "default": "custom" },
+    { "type": "text", "id": "metafield_key", "label": "Metafield key", "default": "accessories" },
+    { "type": "range", "id": "columns_desktop", "label": "桌面端每行列数", "min": 2, "max": 5, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_when_empty", "label": "没有配件时仍显示模块", "default": false },
+    { "type": "text", "id": "empty_text", "label": "空数据提示", "default": "暂未配置配件。请在产品的 Accessories 元字段里添加。" },
+    { "type": "url", "id": "view_all_link", "label": "“查看全部”链接（可选）" },
+    { "type": "text", "id": "view_all_text", "label": "“查看全部”文案（可选）", "default": "查看全部" },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "配色方案",
+      "default": "background-1",
+      "options": [
+        { "value": "background-1", "label": "背景 1" },
+        { "value": "background-2", "label": "背景 2" },
+        { "value": "inverse", "label": "反色" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Product Accessories" }]
+}
+{% endschema %}
