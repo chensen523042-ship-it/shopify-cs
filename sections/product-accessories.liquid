@@ -10,10 +10,11 @@
   assign accessories = product.metafields[ns][key].value
   assign heading = section.settings.heading | default: '配件'
   assign columns = section.settings.columns_desktop | default: 4
+  assign color_scheme = section.settings.color_scheme | default: 'background-1'
 %}
 
-{% if accessories != blank and accessories.size > 0 %}
-<section class="page-width section-{{ section.id }} color-{{ section.settings.color_scheme }}">
+{% if accessories != blank %}
+<section class="page-width section-{{ section.id }} color-{{ color_scheme }}">
   {% if heading != blank %}
     <div class="title-wrapper-with-link">
       <h2 class="title h2">{{ heading }}</h2>
@@ -25,8 +26,7 @@
     </div>
   {% endif %}
 
-  <ul class="accessories-grid grid" role="list"
-      style="--cols: {{ columns | at_most: 5 }};">
+  <ul class="accessories-grid accessories-grid--{{ columns }}" role="list">
     {% for item in accessories %}
       <li class="grid__item accessories-grid__item">
         {%- render 'product-card', product: item -%}
@@ -35,7 +35,7 @@
   </ul>
 </section>
 {% elsif section.settings.show_when_empty %}
-<section class="page-width section-{{ section.id }} color-{{ section.settings.color_scheme }}">
+<section class="page-width section-{{ section.id }} color-{{ color_scheme }}">
   {% if heading != blank %}
     <div class="title-wrapper-with-link">
       <h2 class="title h2">{{ heading }}</h2>
@@ -51,19 +51,94 @@
   /* 简单自适应栅格，复用主题的 .grid__item */
   .section-{{ section.id }} .accessories-grid {
     display: grid;
-    grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
     gap: 2rem;
+    justify-items: center; /* 让网格项居中 */
+    max-width: 800px; /* 限制最大宽度，让整体更居中 */
+    margin: 0 auto; /* 整体居中 */
   }
+  
+  /* 标题居中且字体更小 */
+  .section-{{ section.id }} .title-wrapper-with-link {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .section-{{ section.id }} .title {
+    font-size: 1.5rem; /* 减小字体大小 */
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  .section-{{ section.id }} .accessories-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .section-{{ section.id }} .accessories-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  
+  .section-{{ section.id }} .accessories-grid--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  
+  .section-{{ section.id }} .accessories-grid--5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  
+  /* 让配件卡片更小 */
+  .section-{{ section.id }} .accessories-grid__item {
+    max-width: 200px; /* 限制每个配件项的最大宽度 */
+    width: 100%;
+  }
+  
+  /* 让配件卡片内的图片更小 */
+  .section-{{ section.id }} .accessories-grid__item .product-card__media {
+    max-width: 150px; /* 限制图片最大宽度 */
+    margin: 0 auto; /* 图片居中 */
+  }
+  
+  .section-{{ section.id }} .accessories-grid__item .product-card__media img {
+    max-width: 100%;
+    height: auto;
+  }
+  
   @media (max-width: 989px) {
     .section-{{ section.id }} .accessories-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
+      max-width: 600px; /* 平板端调整最大宽度 */
+    }
+    
+    .section-{{ section.id }} .accessories-grid__item {
+      max-width: 180px; /* 平板端调整卡片宽度 */
+    }
+    
+    .section-{{ section.id }} .accessories-grid__item .product-card__media {
+      max-width: 130px; /* 平板端调整图片宽度 */
+    }
+    
+    .section-{{ section.id }} .title {
+      font-size: 1.25rem; /* 平板端字体更小 */
     }
   }
+  
   @media (max-width: 599px) {
     .section-{{ section.id }} .accessories-grid {
       grid-template-columns: 1fr;
       gap: 1rem;
+      max-width: 300px; /* 手机端调整最大宽度 */
+    }
+    
+    .section-{{ section.id }} .accessories-grid__item {
+      max-width: 250px; /* 手机端调整卡片宽度 */
+    }
+    
+    .section-{{ section.id }} .accessories-grid__item .product-card__media {
+      max-width: 180px; /* 手机端调整图片宽度 */
+    }
+    
+    .section-{{ section.id }} .title {
+      font-size: 1.125rem; /* 手机端字体更小 */
     }
   }
 </style>
