@@ -142,7 +142,7 @@
         "border_bottom_width": 0,
         "border_color": "border-primary",
         "border_opacity": 100,
-        "container_max_width": "",
+        "container_max_width": "2000",
         "products": [
           "luba-mini-awd-800",
           "luba-mini-awd",
