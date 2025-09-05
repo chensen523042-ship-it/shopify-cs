@@ -1,13 +1,171 @@
 <ul class="nav-desktop-menu nav justify-content-center">
   {% for link in linklists[block1.settings.main_menu].links %}
-    <li class="nav-item {% if link.links %}dropdown{% endif %}">
+    <li class="nav-item {% if link.type == 'product_link' and link.object %}dropdown{% endif %}">
       {% if link.links == blank %}
-        <a
-          class="nav-link {% if link.active %}active{% endif %}" 
-          href="{{ link.url }}"
-          aria-current="{% if link.active %}page{% endif %}">
-          {{ link.title }}
-        </a>
+        {% if link.type == 'product_link' and link.object %}
+          <a 
+            class="nav-link dropdown-toggle {% if link.active %}active{% endif %}" 
+            href="{{ link.url }}"
+            aria-expanded="false"
+            role="button">
+            {{ link.title }}
+          </a>
+          <div class="dropdown-menu product-dropdown">
+            <div class="container">
+              <div class="row">
+                <!-- 左侧产品类别 -->
+                <div class="col-md-3">
+                  <div class="product-categories">
+                    {% comment %} <h6 class="categories-title">产品类别</h6> {% endcomment %}
+                    <ul class="category-list">
+                      {% assign product = link.object %}
+                      {% if product.options_with_values %}
+                        {% assign color_option = nil %}
+                        {% for option in product.options_with_values %}
+                          {% if option.name == 'Color' or option.name == '颜色' or option.name == 'Colour' %}
+                            {% assign color_option = option %}
+                            {% break %}
+                          {% endif %}
+                        {% endfor %}
+{% comment %}                         
+                        {% if color_option %}
+                          {% assign color_count = 0 %}
+                          {% for value in color_option.values %}
+                            {% if color_count < 3 %}
+                                                             <li class="category-item">
+                                 <span class="category-name color-option">{{ value }}</span>
+                               </li>
+                              {% assign color_count = color_count | plus: 1 %}
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %} {% endcomment %}
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+                
+                <!-- 右侧产品信息 -->
+                <div class="col-md-9">
+                  <!-- 中上：产品信息 -->
+                  <div class="product-main-info">
+                    <h5 class="product-title">{{ product.title }}</h5>
+                                         <div class="product-image-large">
+                       {% if product.featured_image %}
+                         <a href="{{ product.url }}" class="product-image-link">
+                           <img src="{{ product.featured_image | image_url: width: 600, height: 400, crop: 'center' }}" 
+                                alt="{{ product.title }}" 
+                                width="600" height="400">
+                         </a>
+                       {% else %}
+                         <a href="{{ product.url }}" class="product-image-link">
+                           <div style="width: 400px; height: 300px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 0.75rem;">
+                             <span style="color: #6c757d; font-size: 1.125rem;">产品图片</span>
+                           </div>
+                         </a>
+                       {% endif %}
+                     </div>
+                    {% if product.price %}
+                      <div class="product-price mt-2">
+                        <span class="fs-4 fw-bold text-primary">{{ product.price | money }}</span>
+                        {% if product.compare_at_price > product.price %}
+                          <span class="text-muted text-decoration-line-through ms-2">{{ product.compare_at_price | money }}</span>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                    {% if product.description %}
+                      <p class="product-desc mt-2">{{ product.description | strip_html | truncate: 150 }}</p>
+                    {% endif %}
+                  </div>
+                  
+                  <!-- 中下：产品配件 -->
+                  <div class="product-accessories">
+                    <div class="accessories-header">
+                      <h6 class="accessories-title">相关配件</h6>
+                      <a href="{{ product.url }}" class="view-all-link">查看全部 ></a>
+                    </div>
+                    <div class="accessories-grid">
+                      {% comment %} 从产品metafields获取配件信息 {% endcomment %}
+                      {% assign ns = 'custom' %}
+                      {% assign key = 'accessories' %}
+                      {% assign accessories = product.metafields[ns][key].value %}
+                      
+                      {% if accessories != blank %}
+                        {% assign accessory_count = 0 %}
+                        {% for accessory in accessories %}
+                          {% if accessory_count < 4 %}
+                            <div class="accessory-item">
+                                                             <div class="accessory-icon">
+                                 {% if accessory.featured_image %}
+                                   <img src="{{ accessory.featured_image | image_url: width: 60, height: 60, crop: 'center' }}" 
+                                        alt="{{ accessory.title }}" 
+                                        width="60" height="60" 
+                                        style="border-radius: 0.375rem;">
+                                 {% else %}
+                                   <div style="width: 60px; height: 60px; background-color: #e9ecef; border-radius: 0.375rem;"></div>
+                                 {% endif %}
+                               </div>
+                              <div class="accessory-info">
+                                <span class="accessory-name">{{ accessory.title }}</span>
+                                {% if accessory.price %}
+                                  <span class="accessory-price">{{ accessory.price | money }}</span>
+                                {% endif %}
+                              </div>
+                            </div>
+                            {% assign accessory_count = accessory_count | plus: 1 %}
+                          {% endif %}
+                        {% endfor %}
+                      {% else %}
+                        {% comment %} 如果没有配置配件metafields，尝试从同类型产品中查找 {% endcomment %}
+                        {% assign related_count = 0 %}
+                        {% for related_product in collections.all.products %}
+                          {% if related_product.type == product.type and related_product.id != product.id and related_count < 4 %}
+                            <div class="accessory-item">
+                              <div class="accessory-icon">
+                                {% if related_product.featured_image %}
+                                  <img src="{{ related_product.featured_image | image_url: width: 40, height: 40, crop: 'center' }}" 
+                                       alt="{{ related_product.title }}" 
+                                       width="40" height="40" 
+                                       style="border-radius: 0.25rem;">
+                                {% else %}
+                                  <div style="width: 40px; height: 40px; background-color: #e9ecef; border-radius: 0.25rem;"></div>
+                                {% endif %}
+                              </div>
+                              <div class="accessory-info">
+                                <span class="accessory-name">{{ related_product.title }}</span>
+                                {% if related_product.price %}
+                                  <span class="accessory-price">{{ related_product.price | money }}</span>
+                                {% endif %}
+                              </div>
+                            </div>
+                            {% assign related_count = related_count | plus: 1 %}
+                          {% endif %}
+                        {% endfor %}
+                        
+                        {% if related_count == 0 %}
+                          <div class="accessory-item">
+                            <div class="accessory-icon">
+                              <div style="width: 40px; height: 40px; background-color: #e9ecef; border-radius: 0.25rem;"></div>
+                            </div>
+                            <div class="accessory-info">
+                              <span class="accessory-name">暂无相关配件</span>
+                            </div>
+                          </div>
+                        {% endif %}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <a
+            class="nav-link {% if link.active %}active{% endif %}" 
+            href="{{ link.url }}"
+            aria-current="{% if link.active %}page{% endif %}">
+            {{ link.title }}
+          </a>
+        {% endif %}
       {% else %}
         <a 
           class="nav-link dropdown-toggle {% if link.child_active %}active{% endif %}" 
@@ -39,81 +197,9 @@
                 </ul>
               </div>
               
-              <!-- 右侧产品信息展示 -->
+              <!-- 右侧内容区域 -->
               <div class="col-md-8">
-                  {% if link.title == 'T-Shirt' %}
-                   <div class="product-showcase">
-                     <h6 class="showcase-title">Featured T-Shirts</h6>
-                     <div class="row">
-                       {% assign t_shirt_products = collections['Shirt'] %}
-                       {% for product in t_shirt_products.products %}
-                         <div class="col-6">
-                           <div class="product-card">
-                             <div class="product-image">
-                               {% if product.featured_image %}
-                                 <img src="{{ product.featured_image | image_url: width: 150, height: 150, crop: 'center' }}" alt="{{ product.title }}" width="150" height="150">
-                               {% else %}
-                                 <div style="width: 150px; height: 150px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 0.375rem;">
-                                   <span style="color: #6c757d; font-size: 0.875rem;">T-Shirt Image</span>
-                                 </div>
-                               {% endif %}
-                             </div>
-                             <div class="product-info">
-                               <h6 class="product-name">{{ product.title }}</h6>
-                               <p class="product-price">{{ product.price | money }}</p>
-                               <p class="product-desc">100% Cotton, Comfortable fit</p>
-                             </div>
-                           </div>
-                         </div>
-                       {% endfor %}
-                     </div>
-                   </div>
-                                 {% elsif link.title == 'flower' %}
-                   <div class="product-showcase">
-                     <h6 class="showcase-title">Fresh Flowers</h6>
-                     <div class="row">
-                       {% assign flower_products = collections['flowers'] %}
-                       {% for product in flower_products.products %}
-                         <div class="col-6">
-                           <div class="product-card">
-                             <div class="product-image">
-                               {% if product.featured_image %}
-                                 <img src="{{ product.featured_image | image_url: width: 150, height: 150, crop: 'center' }}" alt="{{ product.title }}" width="150" height="150">
-                               {% else %}
-                                 <div style="width: 150px; height: 150px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 0.375rem;">
-                                   <span style="color: #6c757d; font-size: 0.875rem;">Flower Image</span>
-                                 </div>
-                               {% endif %}
-                             </div>
-                             <div class="product-info">
-                               <h6 class="product-name">{{ product.title }}</h6>
-                               <p class="product-price">{{ product.price | money }}</p>
-                               <p class="product-desc">Fresh seasonal flowers</p>
-                             </div>
-                           </div>
-                         </div>
-                       {% endfor %}
-                     </div>
-                   </div>
-                {% else %}
-                  <!-- 其他菜单的默认子菜单 -->
-                  <ul class="nav flex-column">
-                    {% for child_link in link.links %}
-                      <li>
-                        {% if child_link.title == '-' %}
-                          <hr class="dropdown-divider">
-                        {% else %}
-                          <a 
-                            class="dropdown-item {% if child_link.active %}active{% endif %}" 
-                            href="{{ child_link.url }}"
-                            aria-current="{% if child_link.active %}page{% endif %}">
-                            {{ child_link.title }}
-                          </a>
-                        {% endif %}
-                      </li>
-                    {% endfor %}
-                  </ul>
-                {% endif %}
+                <!-- 这里可以根据需要添加动态内容 -->
               </div>
             </div>
           </div>
