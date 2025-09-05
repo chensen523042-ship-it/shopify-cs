@@ -144,7 +144,14 @@
         "border_opacity": 100,
         "container_max_width": "",
         "products": [
-          "luba-mini-awd-800"
+          "luba-mini-awd-800",
+          "rtk",
+          "wheel",
+          "xiaomi-15-ultra",
+          "发发花",
+          "xiaomi15",
+          "iphone16e",
+          "iphone16-pro"
         ],
         "collection": "latest",
         "limit": 8,
