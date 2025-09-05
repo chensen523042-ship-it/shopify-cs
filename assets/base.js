@@ -303,3 +303,77 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+(function () {
+  const cards = document.querySelectorAll('.product-card__media-wrapper.has-hover-video');
+
+  cards.forEach(card => {
+    const videoWrap = card.querySelector('.product-card__video-wrap');
+    const video = videoWrap ? videoWrap.querySelector('video') : null;
+    if (!video) return;
+
+    // 懒加载视频源：首次悬浮再加载资源
+    // 如果 Shopify 已直接输出 <source src="..."> 就不需要这段。
+    // 若你想更极致，可在 Liquid 里去掉 src，改成 data-src，然后这里赋值。
+    const ensureLoaded = () => {
+      // 例：把 <source data-src="xxx.mp4"> 转成 src
+      const sources = video.querySelectorAll('source[data-src]');
+      sources.forEach(s => {
+        s.setAttribute('src', s.getAttribute('data-src'));
+        s.removeAttribute('data-src');
+      });
+      // 若没有 <source> 而是 video[src]，可以类似处理
+      if (video.hasAttribute('data-src') && !video.getAttribute('src')) {
+        video.setAttribute('src', video.getAttribute('data-src'));
+        video.removeAttribute('data-src');
+      }
+      // 让浏览器开始加载
+      try { video.load(); } catch (e) {}
+    };
+
+    // 桌面：hover 播放、离开暂停
+    const onEnter = () => {
+      ensureLoaded();
+      card.classList.add('hovering');
+      // 静音才能自动播放，已在 Liquid 指定 muted/playsinline
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {/* 忽略自动播放被阻止的情况 */});
+      }
+      videoWrap.hidden = false;
+    };
+
+    const onLeave = () => {
+      card.classList.remove('hovering');
+      video.pause();
+      video.currentTime = 0; // 回到开头
+      videoWrap.hidden = true;
+    };
+
+    // 仅在支持 hover 的设备上启用悬浮交互
+    const mql = window.matchMedia('(hover:hover) and (pointer:fine)');
+    if (mql.matches) {
+      card.addEventListener('mouseenter', onEnter);
+      card.addEventListener('mouseleave', onLeave);
+      card.addEventListener('focusin', onEnter);   // 键盘可达
+      card.addEventListener('focusout', onLeave);
+    }
+
+    // 触屏设备：点按一次切换播放（可选）
+    card.addEventListener('click', (e) => {
+      if (mql.matches) return; // 桌面已处理
+      if (video.paused) {
+        ensureLoaded();
+        videoWrap.hidden = false;
+        card.classList.add('hovering');
+        video.play();
+      } else {
+        video.pause();
+        video.currentTime = 0;
+        card.classList.remove('hovering');
+        videoWrap.hidden = true;
+      }
+      // 不阻止默认，保证点击仍可进商品页；如果你希望点击只预览，可以 e.preventDefault()
+    }, { passive: true });
+  });
+})();

@@ -2145,3 +2145,40 @@ a:hover .article-card-img-wrapper img {
     margin-bottom: 1rem;
   }
 }
+
+.product-card__media-wrapper {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.product-card__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: opacity .2s ease;
+}
+
+.product-card__video-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* 保证 hover 仍在卡片上 */
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+
+.product-card__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 悬浮时视频显现、图片淡出（仅桌面端） */
+@media (hover:hover) and (pointer:fine) {
+  .product-card__media-wrapper.hovering .product-card__video-wrap {
+    opacity: 1;
+  }
+  .product-card__media-wrapper.hovering .product-card__img {
+    opacity: 0;
+  }
+}
