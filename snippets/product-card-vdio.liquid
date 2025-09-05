@@ -1,0 +1,32 @@
+{%- assign hover_video = product.media | where: 'media_type', 'video' | first -%}
+{%- comment -%}
+如果你是用外链视频（YouTube/Vimeo），media_type 是 external_video。
+不过要实现“悬浮即播”更推荐上传 MP4 到产品媒体，这样是 <video> 标签，最稳定。
+{%- endcomment -%}
+
+<div class="product-card__media-wrapper {% if hover_video %}has-hover-video{% endif %}">
+    <a href="{{ product.url }}" class="product-card__link">
+      {%- comment -%} 封面图 {%- endcomment -%}
+      {{ product.featured_media
+        | image_url: width: 800
+        | image_tag:
+          loading: 'lazy',
+          class: 'product-card__img'
+      }}
+  
+      {%- if hover_video -%}
+        <div class="product-card__video-wrap" hidden>
+          {{ hover_video | video_tag:
+              autoplay: false,
+              loop: true,
+              muted: true,
+              controls: false,
+              playsinline: true,
+              preload: 'none',
+              class: 'product-card__video',
+              id: 'vid-' | append: product.id
+          }}
+        </div>
+      {%- endif -%}
+    </a>
+  </div>
