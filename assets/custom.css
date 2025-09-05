@@ -39,15 +39,6 @@
   border-radius: inherit; /* 继承父元素的圆角 */
 }
 
-/* 增加特色产品滑块中卡片之间的间距 */
-.featured-products .swiper-slide {
-  margin-right: 2rem !important; /* 适中的间距，便于滑动 */
-}
-
-.featured-products .swiper-slide:last-child {
-  margin-right: 0 !important; /* 最后一个卡片不需要右侧间距 */
-}
-
 
 .featured-products .swiper-wrapper {
   align-items: center; /* 垂直居中对齐 */

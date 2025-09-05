@@ -88,11 +88,11 @@
     class="container"
     style="max-width: {{ section.settings.container_max_width | append: 'px' }};">
     {% render 'section-header' %}
-    <div class="swiper mx-n4 mx-desktop-n5 mt-n3 mt-desktop-n5" style="--swiper-slide-gap: 2rem;">
+    <div class="swiper mx-n4 mx-desktop-n5 mt-n3 mt-desktop-n5">
       <div class="swiper-wrapper">
         {% if section.settings.recommended_mode and request.path contains 'recommendations' %}
           {% for product in recommendations.products %}
-            <div class="swiper-slide p-4 p-desktop-6">
+            <div class="swiper-slide p-4 p-desktop-5">
               {% render 'product-card-vdio', product: product %}
             </div>
           {% endfor %}
@@ -100,7 +100,7 @@
           {{ empty_state }}
         {% else %}
           {% for product in products limit: section.settings.limit %} 
-            <div class="swiper-slide p-4 p-desktop-6">
+            <div class="swiper-slide p-4 p-desktop-5">
               {% render 'product-card-vdio', product: product %}
             </div>
           {% endfor %}

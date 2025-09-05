@@ -676,9 +676,7 @@ hr {
   transition: all 0.2s ease-out;
 }
 
-.dropdown-item:hover,
-.dropdown-item:focus {
-}
+/* 下拉菜单项悬浮和焦点状态样式 - 当前为空，可根据需要添加样式 */
 
 .dropdown-divider {
   margin-left: var(--bs-dropdown-item-padding-x);
@@ -875,8 +873,7 @@ hr {
 /*
   Tooltips
 */
-.tooltip {
-}
+/* 工具提示样式 - 当前为空，可根据需要添加样式 */
 
 
 /*
@@ -1142,85 +1139,146 @@ a:hover .img-thumbnail-title {
   background-color: rgba(var(--swiper-theme-color), 1);
 }
 
+/* ========================================
+   Swiper滑块组件基础样式
+   ======================================== */
+
+/* 滑块容器基础设置 */
 .swiper-slider {
-  display: block;
+  display: block; /* 设置为块级元素，确保正常布局 */
 }
 
+/* 滑块初始化前的状态 - 防止内容闪烁 */
 .swiper-slider .swiper {
-  opacity: 0;
-  transition: all 200ms ease-out;
+  opacity: 0; /* 初始状态透明，避免未初始化时显示异常 */
+  transition: all 200ms ease-out; /* 平滑过渡效果，提升用户体验 */
 }
 
+/* 滑块初始化完成后的状态 */
 .swiper-slider .swiper.swiper-initialized {
-  opacity: 1;
+  opacity: 1; /* 初始化完成后显示，确保内容正常展示 */
 }
 
+/* ========================================
+   滑块控制区域样式设置
+   ======================================== */
+
+/* 控制按钮区域布局设置 */
 .swiper-slider .swiper-controls {
-  margin-top: 1rem;
-  position: relative;
-  min-height: var(--swiper-navigation-size);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  margin-top: 1rem; /* 与滑块内容保持适当间距 */
+  position: relative; /* 相对定位，便于子元素定位 */
+  min-height: var(--swiper-navigation-size); /* 设置最小高度，确保按钮区域有足够空间 */
+  display: flex; /* 弹性布局 */
+  justify-content: center; /* 水平居中对齐 */
+  align-items: center; /* 垂直居中对齐 */
+  flex-direction: column; /* 垂直排列控制元素 */
 }
 
+/* 导航按钮基础样式重置 */
 .swiper-slider [class*=swiper-button] {
-  margin: 0;
-  top: 0;
-  bottom: 0;
+  margin: 0; /* 移除默认外边距 */
+  top: 0; /* 重置顶部定位 */
+  bottom: 0; /* 重置底部定位 */
 }
 
+/* 上一页按钮位置设置 */
 .swiper-slider .swiper-button-prev {
-  left: 0.5rem;
+  left: 0.5rem; /* 距离左侧0.5rem，提供适当的边距 */
 }
 
+/* 下一页按钮位置设置 */
 .swiper-slider .swiper-button-next {
-  right: 0.5rem;
+  right: 0.5rem; /* 距离右侧0.5rem，提供适当的边距 */
 }
 
+/* ========================================
+   分页指示器样式设置
+   ======================================== */
+
+/* 分页器基础定位设置 */
 .swiper-slider .swiper-pagination {
-  position: relative;
-  bottom: auto;
-  top: auto;
+  position: relative; /* 相对定位，不脱离文档流 */
+  bottom: auto; /* 重置底部定位 */
+  top: auto; /* 重置顶部定位 */
 }
 
+/* 动态分页指示器样式调整 */
 .swiper-slider .swiper-pagination-bullets-dynamic {
-  left: auto !important;
-  transform: none !important;
-  margin-bottom: .375rem;
+  left: auto !important; /* 重置左侧定位，使用默认居中 */
+  transform: none !important; /* 移除变换效果，使用默认布局 */
+  margin-bottom: .375rem; /* 底部间距，与滚动条保持适当距离 */
 }
 
-.swiper-slider .swiper-pagination-fraction {
-}
+/* 分数分页器样式预留 - 当前为空，可根据需要添加样式 */
 
+/* ========================================
+   滚动条样式设置
+   ======================================== */
+
+/* 滚动条基础样式设置 */
 .swiper-slider .swiper-scrollbar {
-  max-width: 60vw;
-  position: relative;
-  bottom: auto;
-  top: 0;
-  left: auto;
-  margin: 0 auto;
+  max-width: 60vw; /* 最大宽度为视口宽度的60%，确保不会过宽 */
+  position: relative; /* 相对定位，不脱离文档流 */
+  bottom: auto; /* 重置底部定位 */
+  top: 0; /* 顶部对齐 */
+  left: auto; /* 重置左侧定位 */
+  margin: 0 auto; /* 水平居中对齐 */
 }
 
+/* 分页器与滚动条同时存在时的间距调整 */
 .swiper-slider .swiper-pagination + .swiper-scrollbar {
-  margin-top: .375rem;
+  margin-top: .375rem; /* 与分页器保持适当间距 */
 }
 
+/* ========================================
+   响应式设计 - 移动端优化
+   ======================================== */
+
+/* 移动端部分幻灯片显示模式优化 */
 @media (max-width: 599px) {
+  /* 启用部分幻灯片模式时的容器设置 */
   .swiper-slider[data-slider-partial-slides-mobile="true"] .container {
-    padding: 0 !important;
-    overflow: hidden;
+    padding: 0 !important; /* 移除容器内边距，最大化显示空间 */
+    overflow: hidden; /* 隐藏溢出内容，确保布局整洁 */
   }
+  
+  /* 启用部分幻灯片模式时的滑块内边距设置 */
   .swiper-slider[data-slider-partial-slides-mobile="true"] .container > .swiper {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1rem; /* 左侧内边距，提供适当的边距 */
+    padding-right: 1rem; /* 右侧内边距，提供适当的边距 */
   }
 }
 
+/* ========================================
+   响应式设计 - 桌面端优化
+   ======================================== */
+
+/* 桌面端滚动条宽度限制 */
 @media (min-width: 1200px) {
   .swiper-slider .swiper-scrollbar { 
-    max-width: 500px;
+    max-width: 500px; /* 桌面端限制滚动条最大宽度为500px，避免过宽 */
+  }
+  
+  /* 桌面端Featured Products最后一个产品优化 */
+  .featured-products .swiper-slider .swiper-slide:last-child {
+    margin-right: 1.5rem !important; /* 桌面端增加右边距 */
+    padding-right: 1rem !important; /* 桌面端增加内边距 */
+  }
+}
+
+/* 平板端Featured Products优化 */
+@media (min-width: 600px) and (max-width: 1199px) {
+  .featured-products .swiper-slider .swiper-slide:last-child {
+    margin-right: 1rem !important; /* 平板端适中的右边距 */
+    padding-right: 0.75rem !important; /* 平板端适中的内边距 */
+  }
+}
+
+/* 移动端Featured Products优化 */
+@media (max-width: 599px) {
+  .featured-products .swiper-slider .swiper-slide:last-child {
+    margin-right: 0.5rem !important; /* 移动端较小的右边距 */
+    padding-right: 0.25rem !important; /* 移动端较小的内边距 */
   }
 }
 
