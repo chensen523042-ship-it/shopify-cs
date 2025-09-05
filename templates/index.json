@@ -15,6 +15,7 @@
         "slide_Q4UPQq": {
           "type": "slide",
           "settings": {
+            "img_desktop": "shopify://shop_images/3inone2800x1000.webp",
             "overlay_color": "#000000",
             "overlay_opacity": 10,
             "overlay_blur": 2,
@@ -30,6 +31,7 @@
         "slide_TddqxQ": {
           "type": "slide",
           "settings": {
+            "img_desktop": "shopify://shop_images/2800x1000.webp",
             "overlay_color": "#000000",
             "overlay_opacity": 10,
             "overlay_blur": 2,
@@ -41,11 +43,62 @@
             "btn_secondary_text": "Secondary button",
             "btn_secondary_url": ""
           }
+        },
+        "slide_g6rRVq": {
+          "type": "slide",
+          "settings": {
+            "img_desktop": "shopify://shop_images/3840x1371--4_-WEB.webp",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "overlay_blur": 0,
+            "subtitle": "Optional Subtitle",
+            "title": "Welcome to our store",
+            "description": "<p>An optional description for this slide</p>",
+            "btn_primary_text": "Primary button",
+            "btn_primary_url": "",
+            "btn_secondary_text": "Secondary button",
+            "btn_secondary_url": ""
+          }
+        },
+        "slide_6eKAra": {
+          "type": "slide",
+          "settings": {
+            "img_desktop": "shopify://shop_images/Vision-Banner_1.webp",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "overlay_blur": 0,
+            "subtitle": "Optional Subtitle",
+            "title": "Welcome to our store",
+            "description": "<p>An optional description for this slide</p>",
+            "btn_primary_text": "Primary button",
+            "btn_primary_url": "",
+            "btn_secondary_text": "Secondary button",
+            "btn_secondary_url": ""
+          }
+        },
+        "slide_RNJwxT": {
+          "type": "slide",
+          "settings": {
+            "img_desktop": "shopify://shop_images/Storehomepage-mammotion_credit.webp",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30,
+            "overlay_blur": 0,
+            "subtitle": "Optional Subtitle",
+            "title": "Welcome to our store",
+            "description": "<p>An optional description for this slide</p>",
+            "btn_primary_text": "Primary button",
+            "btn_primary_url": "",
+            "btn_secondary_text": "Secondary button",
+            "btn_secondary_url": ""
+          }
         }
       },
       "block_order": [
         "slide_Q4UPQq",
-        "slide_TddqxQ"
+        "slide_TddqxQ",
+        "slide_g6rRVq",
+        "slide_6eKAra",
+        "slide_RNJwxT"
       ],
       "settings": {
         "bg_color": "bg-body",
