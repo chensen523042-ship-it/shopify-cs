@@ -41,9 +41,27 @@
 
 /* 增加特色产品滑块中卡片之间的间距 */
 .featured-products .swiper-slide {
-  margin-right: 12rem !important; /* 增加右侧间距 - 修改这个数值 */
+  margin-right: 12rem !important; /* 适中的间距，便于滑动 */
 }
 
 .featured-products .swiper-slide:last-child {
   margin-right: 0 !important; /* 最后一个卡片不需要右侧间距 */
+}
+
+/* 优化滑动体验 */
+.featured-products .swiper {
+  overflow: visible; /* 确保卡片可以完全显示 */
+}
+
+.featured-products .swiper-wrapper {
+  align-items: center; /* 垂直居中对齐 */
+}
+
+/* 确保滑动按钮可见 */
+.featured-products .swiper-button-prev,
+.featured-products .swiper-button-next {
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
