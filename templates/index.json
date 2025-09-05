@@ -90,7 +90,9 @@
         "border_color": "border-primary",
         "border_opacity": 100,
         "container_max_width": "",
-        "products": [],
+        "products": [
+          "luba-mini-awd-800"
+        ],
         "collection": "latest",
         "limit": 8,
         "recommended_mode": true,
