@@ -38,3 +38,12 @@
   object-fit: cover; /* 保持比例填充 */
   border-radius: inherit; /* 继承父元素的圆角 */
 }
+
+/* 增加特色产品滑块中卡片之间的间距 */
+.featured-products .swiper-slide {
+  margin-right: 12rem !important; /* 增加右侧间距 - 修改这个数值 */
+}
+
+.featured-products .swiper-slide:last-child {
+  margin-right: 0 !important; /* 最后一个卡片不需要右侧间距 */
+}
