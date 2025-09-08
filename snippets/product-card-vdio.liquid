@@ -29,4 +29,22 @@
         </div>
       {%- endif -%}
     </a>
+    
+    {%- comment -%} 产品名称和按钮 - 左上角 {%- endcomment -%}
+    <div class="product-card__title-overlay">
+      <h3 class="product-card__title">{{ product.title }}</h3>
+      <a href="{{ product.url }}" class="product-card__learn-more-btn">Learn More</a>
+    </div>
+    
+    {%- comment -%} 产品价格 - 右下角 {%- endcomment -%}
+    <div class="product-card__price-overlay">
+      <div class="product-card__price">
+        {%- if product.compare_at_price > product.price -%}
+          <span class="product-card__price-sale">{{ product.price | money }}</span>
+          <span class="product-card__price-compare">{{ product.compare_at_price | money }}</span>
+        {%- else -%}
+          <span class="product-card__price-regular">{{ product.price | money }}</span>
+        {%- endif -%}
+      </div>
+    </div>
   </div>
