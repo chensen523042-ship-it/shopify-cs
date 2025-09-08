@@ -22,10 +22,8 @@
             "subtitle": "Developed by KondaSoft",
             "title": "Welcome to KS BootShop Theme",
             "description": "<p>Free Shopify Theme inspired by simplicity and elegance.</p>",
-            "btn_primary_text": "Get theme",
-            "btn_primary_url": "https://www.kondasoft.com/collections/shopify-themes/products/ks-bootshop",
-            "btn_secondary_text": "Learn more",
-            "btn_secondary_url": "https://www.kondasoft.com/collections/shopify-themes/products/ks-bootshop"
+            "btn_primary_text": "Learn More",
+            "btn_primary_url": "https://www.kondasoft.com/collections/shopify-themes/products/ks-bootshop"
           }
         },
         "slide_TddqxQ": {
@@ -38,10 +36,8 @@
             "subtitle": "Developed by KondaSoft",
             "title": "Simple to Use, Easy to Customize",
             "description": "<p>Free Shopify Theme inspired by simplicity and elegance.</p>",
-            "btn_primary_text": "Primary button",
-            "btn_primary_url": "shopify://collections/all",
-            "btn_secondary_text": "Secondary button",
-            "btn_secondary_url": ""
+            "btn_primary_text": "Learn More",
+            "btn_primary_url": "shopify://collections/all"
           }
         },
         "slide_g6rRVq": {
@@ -54,10 +50,8 @@
             "subtitle": "Optional Subtitle",
             "title": "Welcome to our store",
             "description": "<p>An optional description for this slide</p>",
-            "btn_primary_text": "Primary button",
-            "btn_primary_url": "",
-            "btn_secondary_text": "Secondary button",
-            "btn_secondary_url": ""
+            "btn_primary_text": "Learn More",
+            "btn_primary_url": ""
           }
         },
         "slide_6eKAra": {
@@ -70,10 +64,8 @@
             "subtitle": "Optional Subtitle",
             "title": "Welcome to our store",
             "description": "<p>An optional description for this slide</p>",
-            "btn_primary_text": "Primary button",
-            "btn_primary_url": "",
-            "btn_secondary_text": "Secondary button",
-            "btn_secondary_url": ""
+            "btn_primary_text": "Learn More",
+            "btn_primary_url": ""
           }
         },
         "slide_RNJwxT": {
@@ -86,10 +78,8 @@
             "subtitle": "Optional Subtitle",
             "title": "Welcome to our store",
             "description": "<p>An optional description for this slide</p>",
-            "btn_primary_text": "Primary button",
-            "btn_primary_url": "",
-            "btn_secondary_text": "Secondary button",
-            "btn_secondary_url": ""
+            "btn_primary_text": "Learn More",
+            "btn_primary_url": ""
           }
         }
       },
@@ -122,11 +112,10 @@
         "caption_max_width": "900",
         "caption_position": "carousel-caption-center",
         "subtitle_font_size": "fs-md",
-        "title_font_size": "h2",
+        "title_font_size": "h1",
         "description_font_size": "fs-lg",
-        "btn_primary_color": "btn-primary",
-        "btn_secondary_color": "btn-secondary",
-        "btn_font_size": "fs-md",
+        "btn_primary_color": "btn-white",
+        "btn_font_size": "fs-xl",
         "pt": 0,
         "pb": 0
       }
