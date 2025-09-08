@@ -211,3 +211,82 @@
     padding: 0.2rem 0.4rem;
   }
 }
+
+/* 公告栏样式自定义 */
+.announcement-bar {
+  background-color: #000000 !important; /* 黑色背景 */
+  color: #ffffff !important; /* 白色文字 */
+  font-weight: 700 !important; /* 加粗字体 */
+}
+
+.announcement-bar .description {
+  color: #ffffff !important; /* 白色文字 */
+  line-height: 1.4;
+}
+
+/* 公告栏轮播控制按钮样式 */
+.announcement-bar .carousel-control {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  transition: all 0.3s ease;
+}
+
+.announcement-bar .carousel-control:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+/* 移动端字体调整 */
+@media (max-width: 768px) {
+  .announcement-bar .description {
+    font-size: 1rem !important;
+  }
+}
+
+/* 导航栏菜单样式自定义 */
+.navbar .nav-link {
+  font-weight: 700 !important; /* 加粗字体 */
+  font-size: 1.125rem !important; /* 增大字体 */
+  transition: all 0.3s ease;
+}
+
+/* 桌面端导航菜单 */
+.navbar-desktop .nav-link {
+  font-weight: 700 !important;
+  font-size: 1.25rem !important; /* 桌面端字体更大 */
+  padding: 0.75rem 1rem !important;
+}
+
+/* 移动端导航菜单 */
+.navbar-mobile .nav-link {
+  font-weight: 700 !important;
+  font-size: 1rem !important; /* 移动端字体适中 */
+}
+
+/* 导航菜单悬浮效果 */
+.navbar .nav-link:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+/* 导航菜单激活状态 */
+.navbar .nav-link.active {
+  font-weight: 800 !important;
+  opacity: 1;
+}
+
+/* 导航栏图标样式 */
+.navbar .nav-link-icon {
+  font-size: 1.25rem !important;
+  padding: 0.5rem !important;
+}
+
+/* 移动端图标调整 */
+@media (max-width: 768px) {
+  .navbar .nav-link-icon {
+    font-size: 1.125rem !important;
+  }
+}

@@ -93,24 +93,15 @@
                   {{ block.settings.description }}
                 </div>
               {% endunless %}
-              {% if block.settings.btn_primary_text != blank or block.settings.btn_secondary_text != blank %}
+              {% unless block.settings.btn_primary_text == blank %}
                 <div class="btn-wrapper m-n2">
-                  {% unless block.settings.btn_primary_text == blank %}
-                    <a 
-                      class="btn m-2 {{ section.settings.btn_primary_color }} {{ section.settings.btn_font_size }}"  
-                      href="{{ block.settings.btn_primary_url }}">
-                      {{ block.settings.btn_primary_text }}
-                    </a>
-                  {% endunless %}
-                  {% unless block.settings.btn_secondary_text == blank %}
-                    <a 
-                      class="btn m-2 {{ section.settings.btn_secondary_color }} {{ section.settings.btn_font_size }}"  
-                      href="{{ block.settings.btn_secondary_url }}">
-                      {{ block.settings.btn_secondary_text }}
-                    </a>
-                  {% endunless %}
+                  <a 
+                    class="btn m-2 {{ section.settings.btn_primary_color }} {{ section.settings.btn_font_size }}"  
+                    href="{{ block.settings.btn_primary_url }}">
+                    {{ block.settings.btn_primary_text }}
+                  </a>
                 </div>
-              {% endif %}
+              {% endunless %}
             </div>
           </div>
         </div>
@@ -439,23 +430,6 @@
     },
     {
       "type": "select",
-      "id": "btn_secondary_color",
-      "label": "Secondary button color",
-      "default": "btn-secondary",
-      "options": [
-        { "group": "Solid", "value": "btn-primary", "label": "Primary" },
-        { "group": "Solid", "value": "btn-secondary", "label": "Secondary" },
-        { "group": "Solid", "value": "btn-white", "label": "White" },
-        { "group": "Light", "value": "btn-light-primary", "label": "Primary" },
-        { "group": "Light", "value": "btn-light-secondary", "label": "Secondary" },
-        { "group": "Light", "value": "btn-light-white", "label": "White" },
-        { "group": "Outline", "value": "btn-outline-primary", "label": "Primary" },
-        { "group": "Outline", "value": "btn-outline-secondary", "label": "Secondary" },
-        { "group": "Outline", "value": "btn-outline-white", "label": "White" }
-      ]
-    },
-    {
-      "type": "select",
       "id": "btn_font_size",
       "label": "Button font-size",
       "default": "fs-md",
@@ -596,18 +570,6 @@
           "id": "btn_primary_url",
           "label": "Primary button URL"
         },
-        {
-          "type": "text",
-          "id": "btn_secondary_text",
-          "label": "Secondary button text",
-          "default": "Secondary button",
-          "info": "Leave empty to disable"
-        },
-        {
-          "type": "url",
-          "id": "btn_secondary_url",
-          "label": "Secondary button URL"
-        }
       ]
     }
   ],
