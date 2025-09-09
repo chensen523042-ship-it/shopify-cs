@@ -163,6 +163,7 @@
     },
     "richtext_4miPYL": {
       "type": "richtext",
+      "disabled": true,
       "settings": {
         "bg_color": "bg-primary",
         "bg_opacity": 5,
@@ -222,7 +223,7 @@
         "collection_rznnLq": {
           "type": "collection",
           "settings": {
-            "collection": "men",
+            "collection": "huawei",
             "title": ""
           }
         },
