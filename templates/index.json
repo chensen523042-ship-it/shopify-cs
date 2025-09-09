@@ -230,35 +230,14 @@
         "collection_KdHXk9": {
           "type": "collection",
           "settings": {
-            "collection": "women",
+            "collection": "xiaomi-phone",
             "title": ""
           }
         },
         "collection_b7ELCB": {
           "type": "collection",
           "settings": {
-            "collection": "children",
-            "title": ""
-          }
-        },
-        "collection_XRMXNt": {
-          "type": "collection",
-          "settings": {
-            "collection": "babies",
-            "title": ""
-          }
-        },
-        "collection_fQ9QDf": {
-          "type": "collection",
-          "settings": {
-            "collection": "latest",
-            "title": ""
-          }
-        },
-        "collection_kRQqkR": {
-          "type": "collection",
-          "settings": {
-            "collection": "sale",
+            "collection": "shirt",
             "title": ""
           }
         }
@@ -266,10 +245,7 @@
       "block_order": [
         "collection_rznnLq",
         "collection_KdHXk9",
-        "collection_b7ELCB",
-        "collection_XRMXNt",
-        "collection_fQ9QDf",
-        "collection_kRQqkR"
+        "collection_b7ELCB"
       ],
       "settings": {
         "bg_color": "bg-body",
@@ -679,6 +655,7 @@
     },
     "blog_slider_UUweWT": {
       "type": "blog-slider",
+      "disabled": true,
       "settings": {
         "bg_color": "bg-body",
         "bg_opacity": 100,
