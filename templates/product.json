@@ -251,11 +251,15 @@
         "border_color": "border-body",
         "border_opacity": 100,
         "container_max_width": "",
-        "products": [],
+        "products": [
+          "wheel",
+          "rtk",
+          "charging-pile"
+        ],
         "collection": "",
         "limit": 8,
         "recommended_mode": true,
-        "recommended_mode_intent": "related",
+        "recommended_mode_intent": "complementary",
         "header_title": "Recommended Products",
         "header_title_font_size": "h3",
         "header_description": "<p>Add on optional description for this section</p>",

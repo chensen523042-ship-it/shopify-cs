@@ -52,6 +52,7 @@
     "cart_upsells_collection": "best-selling",
     "cart_upsells_limit": 5,
     "cart_gift_upsell_product": "gift-wrap",
+    "search": true,
     "recently_viewed": true,
     "social_facebook": "#",
     "social_instagram": "#",
