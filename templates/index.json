@@ -224,6 +224,7 @@
           "type": "collection",
           "settings": {
             "collection": "mower",
+            "img": "shopify://shop_images/Store_homepage_comparison_mobile.jpg",
             "title": "Find the Perfect Robot Lawn Mower"
           }
         },
@@ -231,6 +232,7 @@
           "type": "collection",
           "settings": {
             "collection": "accessories",
+            "img": "shopify://shop_images/Store_homepage_all_accessories_mobile.jpg",
             "title": "Accessories"
           }
         }
@@ -246,9 +248,9 @@
         "text_color": "text-body",
         "border_top_width": 1,
         "border_bottom_width": 0,
-        "border_color": "border-body",
-        "border_opacity": 10,
-        "container_max_width": "",
+        "border_color": "border-white",
+        "border_opacity": 3,
+        "container_max_width": "1800",
         "header_title": "Featured Collections",
         "header_title_font_size": "h3",
         "header_description": "<p>Add on optional description for this section</p>",
@@ -261,16 +263,16 @@
         "slider_partial_slides_mobile": false,
         "slider_autoplay": 0,
         "collection_card_text_align": "text-center",
-        "collection_card_img_orientation": "ratio-16x9",
-        "collection_card_img_border": "img-thumbnail",
+        "collection_card_img_orientation": "adapt",
+        "collection_card_img_border": "rounded",
         "collection_card_show_title": true,
-        "collection_card_title_font_size": "fs-md",
+        "collection_card_title_font_size": "fs-xxl",
         "collection_card_title_position": "collection-card-title-normal",
         "collection_card_show_product_count": true,
         "breakpoint_mobile": 1,
         "breakpoint_tablet": 2,
-        "breakpoint_desktop": 3,
-        "pt": 11,
+        "breakpoint_desktop": 2,
+        "pt": 6,
         "pb": 11
       }
     },
