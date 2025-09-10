@@ -223,29 +223,21 @@
         "collection_rznnLq": {
           "type": "collection",
           "settings": {
-            "collection": "huawei",
-            "title": ""
+            "collection": "mower",
+            "title": "Find the Perfect Robot Lawn Mower"
           }
         },
         "collection_KdHXk9": {
           "type": "collection",
           "settings": {
-            "collection": "xiaomi-phone",
-            "title": ""
-          }
-        },
-        "collection_b7ELCB": {
-          "type": "collection",
-          "settings": {
-            "collection": "shirt",
-            "title": ""
+            "collection": "accessories",
+            "title": "Accessories"
           }
         }
       },
       "block_order": [
         "collection_rznnLq",
-        "collection_KdHXk9",
-        "collection_b7ELCB"
+        "collection_KdHXk9"
       ],
       "settings": {
         "bg_color": "bg-body",
