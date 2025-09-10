@@ -52,9 +52,9 @@
                                          <div class="product-image-large">
                        {% if product.featured_image %}
                          <a href="{{ product.url }}" class="product-image-link">
-                           <img src="{{ product.featured_image | image_url: width: 600, height: 400, crop: 'center' }}" 
+                           <img src="{{ product.featured_image | image_url: width: 400, height: 400, crop: 'center' }}" 
                                 alt="{{ product.title }}" 
-                                width="600" height="400">
+                                width="400" height="400">
                          </a>
                        {% else %}
                          <a href="{{ product.url }}" class="product-image-link">
