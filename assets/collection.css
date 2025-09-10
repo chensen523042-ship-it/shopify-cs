@@ -99,9 +99,6 @@
   box-shadow: var(--bs-focus-box-shadow);
 }
 
-.collection-card-title {
-  transition: all 200ms ease-out;
-}
 
 .collection-card-img-wrapper {
   position: relative;
