@@ -1,0 +1,74 @@
+{% if settings.cart_upsells_enable and cart.items.size > 0 %}
+  {% assign upsells_collection = collections[settings.cart_upsells_collection] %}
+  {% if upsells_collection.products.size > 0 %}
+    <cart-upsells class="cart-upsells mt-4">
+      <h3 class="cart-upsells-title h6 mb-3">
+        {{ settings.cart_upsells_title }}
+      </h3>
+      
+      <div class="cart-upsells-slider">
+        <div class="row g-3">
+          {% assign displayed_count = 0 %}
+          {% for product in upsells_collection.products %}
+            {% assign product_in_cart = false %}
+            {% for cart_item in cart.items %}
+              {% if cart_item.product.id == product.id %}
+                {% assign product_in_cart = true %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+            
+            {% unless product_in_cart or displayed_count >= settings.cart_upsells_limit %}
+              <div class="col-6">
+                <div class="cart-upsell-item" data-product-id="{{ product.id }}">
+                  <div class="cart-upsell-image">
+                    <a href="{{ product.url }}">
+                      {% if product.featured_image %}
+                        {% render 'image-url', img: product.featured_image, orientation: 'square', class: 'img-thumbnail' %}
+                      {% else %}
+                        {{ 'product-1' | placeholder_svg_tag: 'img-thumbnail' }}
+                      {% endif %}
+                    </a>
+                  </div>
+                  
+                  <div class="cart-upsell-info">
+                    <h4 class="cart-upsell-title">
+                      <a href="{{ product.url }}" class="text-decoration-none">
+                        {{ product.title }}
+                      </a>
+                    </h4>
+                    
+                    <div class="cart-upsell-price">
+                      {% if product.compare_at_price > product.price %}
+                        <span class="text-muted small">
+                          <s>{{ product.compare_at_price | money }}</s>
+                        </span>
+                        <span class="text-danger fw-bold ms-1">
+                          {{ product.price | money }}
+                        </span>
+                      {% else %}
+                        <span class="fw-bold">
+                          {{ product.price | money }}
+                        </span>
+                      {% endif %}
+                    </div>
+                  </div>
+                  
+                  <div class="cart-upsell-action">
+                    <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="cart-upsell-form">
+                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                      <button type="submit" class="btn {{ settings.cart_upsells_btn_color | default: 'btn-outline-primary' }} btn-sm">
+                        + Add
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              {% assign displayed_count = displayed_count | plus: 1 %}
+            {% endunless %}
+          {% endfor %}
+        </div>
+      </div>
+    </cart-upsells>
+  {% endif %}
+{% endif %}

@@ -158,3 +158,139 @@ class CartNote extends HTMLElement {
   }
 }
 customElements.define('cart-note', CartNote)
+
+// Cart Upsells functionality
+class CartUpsells extends HTMLElement {
+  constructor() {
+    super()
+    this.init()
+  }
+
+  init() {
+    this.forms = this.querySelectorAll('.cart-upsell-form')
+    this.forms.forEach(form => {
+      form.addEventListener('submit', this.handleSubmit.bind(this))
+    })
+  }
+
+  async refreshCartSidebar() {
+    try {
+      // Fetch the updated cart data
+      const response = await fetch('/cart.js')
+      const cartData = await response.json()
+      
+      // Update cart count badge
+      const cartCountBadges = document.querySelectorAll('.cart-count-badge')
+      cartCountBadges.forEach(badge => {
+        badge.textContent = cartData.item_count
+        badge.style.display = cartData.item_count > 0 ? 'inline' : 'none'
+      })
+      
+      // Refresh the cart sidebar by fetching the updated section
+      const offcanvasCart = document.querySelector('#offcanvas-cart')
+      if (offcanvasCart) {
+        // Add loading state
+        offcanvasCart.classList.add('loading')
+        
+        // Fetch the updated cart section
+        const sectionResponse = await fetch('/?section_id=offcanvas-cart')
+        const sectionHTML = await sectionResponse.text()
+        
+        // Parse and replace the content
+        const parser = new DOMParser()
+        const doc = parser.parseFromString(sectionHTML, 'text/html')
+        const newOffcanvasCart = doc.querySelector('#offcanvas-cart')
+        
+        if (newOffcanvasCart) {
+          offcanvasCart.innerHTML = newOffcanvasCart.innerHTML
+          
+          // Remove loading state
+          offcanvasCart.classList.remove('loading')
+          
+          // Re-initialize event listeners for the new content
+          const newCartUpsells = offcanvasCart.querySelector('cart-upsells')
+          if (newCartUpsells) {
+            newCartUpsells.init()
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error refreshing cart sidebar:', error)
+      // Remove loading state on error
+      const offcanvasCart = document.querySelector('#offcanvas-cart')
+      if (offcanvasCart) {
+        offcanvasCart.classList.remove('loading')
+      }
+    }
+  }
+
+  async handleSubmit(e) {
+    e.preventDefault()
+    
+    const form = e.target
+    const button = form.querySelector('button[type="submit"]')
+    const originalText = button.innerHTML
+    const upsellItem = form.closest('.cart-upsell-item')
+    
+    // Show loading state
+    button.innerHTML = 'Adding...'
+    button.disabled = true
+    
+    try {
+      const formData = new FormData(form)
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData
+      })
+      
+      if (response.ok) {
+        // Show success state
+        button.innerHTML = '✓ Added'
+        button.classList.add('btn-success')
+        button.classList.remove('btn-outline-primary')
+        
+        // Update cart and refresh cart sidebar
+        document.dispatchEvent(new CustomEvent('cart:updated'))
+        
+        // Refresh the entire cart sidebar after a short delay
+        setTimeout(() => {
+          this.refreshCartSidebar()
+        }, 1500)
+        
+      } else {
+        throw new Error('Failed to add to cart')
+      }
+    } catch (error) {
+      console.error('Error adding product to cart:', error)
+      button.innerHTML = 'Error'
+      button.classList.add('btn-danger')
+      
+      setTimeout(() => {
+        button.innerHTML = originalText
+        button.disabled = false
+        button.classList.remove('btn-danger')
+        button.classList.add('btn-outline-primary')
+      }, 2000)
+    }
+  }
+}
+
+customElements.define('cart-upsells', CartUpsells)
+
+
+// Listen for cart updates to refresh cart count
+document.addEventListener('cart:updated', () => {
+  // Update cart count badge
+  fetch('/cart.js')
+    .then(response => response.json())
+    .then(cartData => {
+      const cartCountBadges = document.querySelectorAll('.cart-count-badge')
+      cartCountBadges.forEach(badge => {
+        badge.textContent = cartData.item_count
+        badge.style.display = cartData.item_count > 0 ? 'inline' : 'none'
+      })
+    })
+    .catch(error => {
+      console.error('Error updating cart count:', error)
+    })
+})
