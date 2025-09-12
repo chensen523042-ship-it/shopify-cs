@@ -292,6 +292,38 @@
     "scrolling_image_reveal_MmmTYg": {
       "type": "scrolling-image-reveal",
       "blocks": {
+        "video_nA7jCa": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/f8cdc6180783428a8cdf0a590a9b8d92.HD-720p-3.0Mbps-50074474.mp4",
+            "video_alt": "",
+            "heading": "视频标题",
+            "text": "视频描述内容。",
+            "button_label": "",
+            "button_link": "",
+            "autoplay": true,
+            "loop": true,
+            "muted": true,
+            "controls": false,
+            "parallax_speed": 0.2
+          }
+        },
+        "video_WcUXHr": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/ffbd91d10a13430abbaaf3c4044cecc3.HD-720p-3.0Mbps-50074471.mp4",
+            "video_alt": "",
+            "heading": "视频标题",
+            "text": "视频描述内容。",
+            "button_label": "",
+            "button_link": "",
+            "autoplay": true,
+            "loop": true,
+            "muted": true,
+            "controls": false,
+            "parallax_speed": 0.2
+          }
+        },
         "card_7ipnby": {
           "type": "card",
           "settings": {
@@ -342,6 +374,8 @@
         }
       },
       "block_order": [
+        "video_nA7jCa",
+        "video_WcUXHr",
         "card_7ipnby",
         "card_k9yf74",
         "card_bkHPjG",
