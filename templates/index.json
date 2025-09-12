@@ -289,6 +289,71 @@
         "pb": 10
       }
     },
+    "scrolling_image_reveal_MmmTYg": {
+      "type": "scrolling-image-reveal",
+      "blocks": {
+        "card_7ipnby": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/hover-card-spino.webp",
+            "image_alt": "",
+            "heading": "逐条揭示的卖点标题",
+            "text": "简短的一句话说明，突出价值点与关键信息。",
+            "button_label": "",
+            "button_link": "",
+            "parallax_speed": 0.2
+          }
+        },
+        "card_k9yf74": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/image.webp",
+            "image_alt": "",
+            "heading": "逐条揭示的卖点标题",
+            "text": "简短的一句话说明，突出价值点与关键信息。",
+            "button_label": "",
+            "button_link": "",
+            "parallax_speed": 0.2
+          }
+        },
+        "card_bkHPjG": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/hover-card-luba-mini.webp",
+            "image_alt": "",
+            "heading": "逐条揭示的卖点标题",
+            "text": "简短的一句话说明，突出价值点与关键信息。",
+            "button_label": "",
+            "button_link": "",
+            "parallax_speed": 0.2
+          }
+        },
+        "card_DQHJkV": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/hover-card-lidar.webp",
+            "image_alt": "",
+            "heading": "逐条揭示的卖点标题",
+            "text": "简短的一句话说明，突出价值点与关键信息。",
+            "button_label": "",
+            "button_link": "",
+            "parallax_speed": 0.2
+          }
+        }
+      },
+      "block_order": [
+        "card_7ipnby",
+        "card_k9yf74",
+        "card_bkHPjG",
+        "card_DQHJkV"
+      ],
+      "name": "Scrolling image reveal",
+      "settings": {
+        "bg_blur": 6,
+        "reveal_duration": 700,
+        "stagger": 120
+      }
+    },
     "media_with_text_xTY8gi": {
       "type": "media-with-text",
       "blocks": {
@@ -708,6 +773,7 @@
     "richtext_AtYwxr",
     "featured_collections_n3Br7m",
     "separator_kfq8kz",
+    "scrolling_image_reveal_MmmTYg",
     "media_with_text_xTY8gi",
     "card_slider_BFzjjF",
     "html_Y7Cp8x",
