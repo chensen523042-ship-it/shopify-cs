@@ -85,17 +85,22 @@
   filter: blur(20px);
 }
 
-/* 图片样式 */
+/* 图片和视频样式 */
 .sir-card__media{ 
   border-radius: 16px; 
   overflow: hidden;
   width: 100%;
-  max-width: 600px; /* 限制图片最大宽度 */
+  max-width: 600px; /* 限制媒体最大宽度 */
 }
-.sir-card__media img{ 
+.sir-card__media img,
+.sir-card__media video{ 
   display: block; 
   width: 100%; 
   height: auto; 
+}
+.sir-card__video {
+  object-fit: cover;
+  border-radius: 16px;
 }
 
 /* 文案样式 */

@@ -18,17 +18,37 @@
       %}
       <article class="sir-card" data-card-index="{{ card_index }}" {{ block.shopify_attributes }}>
         <div class="sir-card__media">
-          {% if img %}
-            {{
-              img
-              | image_url: width: 1600
-              | image_tag:
-                loading: 'lazy',
-                widths: '480,720,960,1200,1600,2000',
-                sizes: '(min-width: 1200px) 1100px, 100vw',
-                alt: block.settings.image_alt
-              | escape
-            }}
+          {% if block.type == 'video' %}
+            {% liquid
+              assign video = block.settings.video
+            %}
+            {% if video %}
+              {{- 
+                video | video_tag: 
+                  class: "sir-card__video",
+                  image_size: 900, 
+                  autoplay: block.settings.autoplay, 
+                  loop: block.settings.loop, 
+                  muted: block.settings.muted, 
+                  controls: block.settings.controls,
+                  preload: "metadata",
+                  width: "100%",
+                  height: "auto"
+              -}}
+            {% endif %}
+          {% else %}
+            {% if img %}
+              {{
+                img
+                | image_url: width: 1600
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '480,720,960,1200,1600,2000',
+                  sizes: '(min-width: 1200px) 1100px, 100vw',
+                  alt: block.settings.image_alt
+                | escape
+              }}
+            {% endif %}
           {% endif %}
         </div>
         <div class="sir-card__copy">
@@ -122,10 +142,45 @@
           "default": 0.2
         }
       ]
+    },
+    {
+      "type": "video",
+      "name": "视频卡片",
+      "settings": [
+        { "type": "video", "id": "video", "label": "视频文件" },
+        { "type": "text", "id": "video_alt", "label": "视频替代文本 (alt)" },
+        { "type": "text", "id": "heading", "label": "标题", "default": "视频标题" },
+        { "type": "textarea", "id": "text", "label": "正文", "default": "视频描述内容。" },
+        { "type": "text", "id": "button_label", "label": "按钮文本" },
+        { "type": "url", "id": "button_link", "label": "按钮链接" },
+        { "type": "checkbox", "id": "autoplay", "label": "自动播放", "default": true },
+        { "type": "checkbox", "id": "loop", "label": "循环播放", "default": true },
+        { "type": "checkbox", "id": "muted", "label": "静音播放", "default": true },
+        { "type": "checkbox", "id": "controls", "label": "显示控制条", "default": false },
+        {
+          "type": "range",
+          "id": "parallax_speed",
+          "label": "视差强度（0=关闭）",
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "default": 0.2
+        }
+      ]
     }
   ],
   "max_blocks": 12,
-  "presets": [{ "name": "Scrolling image reveal", "category": "Image" }]
+  "presets": [
+    { 
+      "name": "Scrolling image reveal", 
+      "category": "Image",
+      "blocks": [
+        { "type": "card" },
+        { "type": "video" },
+        { "type": "card" }
+      ]
+    }
+  ]
 }
   {% endschema %}
 </section>

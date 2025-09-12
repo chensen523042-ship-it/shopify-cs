@@ -184,13 +184,19 @@ class ScrollingImageReveal {
         }
       });
       
-      // 更新舞台背景图片
+      // 更新舞台背景图片或视频
       const activeCard = this.cards[activeCardIndex];
       if (activeCard) {
         const cardImage = activeCard.querySelector('.sir-card__media img');
+        const cardVideo = activeCard.querySelector('.sir-card__media video');
+        
         if (cardImage) {
           const imageSrc = cardImage.src;
           this.stage.style.setProperty('--bg-image', `url(${imageSrc})`);
+        } else if (cardVideo) {
+          // 对于视频，我们可以使用视频的第一帧作为背景
+          // 或者保持背景透明，让视频本身显示
+          this.stage.style.setProperty('--bg-image', 'none');
         }
       }
       
