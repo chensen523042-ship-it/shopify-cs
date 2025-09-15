@@ -5,6 +5,17 @@
 {% endcomment %}
 
 <section id="sir-{{ section.id }}" class="sir">
+  <!-- 背景标题 -->
+  <div class="sir-background-title">
+    <h2 class="sir-background-title__text">
+      {% if section.settings.background_title != blank %}
+        {{ section.settings.background_title | escape }}
+      {% else %}
+        SCROLLING REVEAL
+      {% endif %}
+    </h2>
+  </div>
+  
   <!-- 粘性舞台容器 -->
   <div class="sir-stage">
     {% for block in section.blocks %}
@@ -90,6 +101,12 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "text",
+      "id": "background_title",
+      "label": "背景标题",
+      "default": "SCROLLING REVEAL"
+    },
     {
       "type": "range",
       "id": "bg_blur",

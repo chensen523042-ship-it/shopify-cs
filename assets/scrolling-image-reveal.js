@@ -43,11 +43,16 @@ class ScrollingImageReveal {
       // 计算基础滚动进度
       const baseProgress = (window.innerHeight - sectionRect.top) / (window.innerHeight + sectionHeight);
       
+      // 调整滚动进度：让第一张卡片在滚动到该模块窗口一半时才开始显示
+      // 当section顶部到达视口中心时，进度才开始从0开始
+      const sectionCenterTrigger = window.innerHeight / 2;
+      const adjustedProgress = Math.max(0, (sectionCenterTrigger - sectionRect.top) / (sectionCenterTrigger + sectionHeight));
+      
       // 调整滚动进度：让最后一张卡片完全显示后进度才到100%
       // 将进度范围压缩到 0-0.8，这样最后一张卡片(0.67-0.8)完成后，进度才到0.8
       // 然后从0.8-1.0是额外的滚动空间，确保最后一张卡片完全显示
       // 允许进度超过1.0，让最后一张卡片也能移动
-      const scrollProgress = Math.max(0, baseProgress * 1.25);
+      const scrollProgress = Math.max(0, adjustedProgress * 1.25);
       
       // 调试信息（可以在控制台查看）
       console.log('Scroll Progress:', scrollProgress.toFixed(3));
@@ -99,25 +104,36 @@ class ScrollingImageReveal {
         let scale = 0.8 + easedProgress * 0.2; // 0.8 → 1.0
         let blur = 20 - easedProgress * 20; // 20px → 0px
         
-        // 计算水平偏移量
+        // 计算水平偏移量 - 卡片在所有阶段都移动
         let translateX = 0;
         
-        // 当下一张卡片开始显示时，当前卡片开始移动
+        // 根据卡片位置计算水平偏移
+        // 偶数索引（0,2,4...）向左移动，奇数索引（1,3,5...）向右移动
+        const moveDistance = window.innerWidth / 2 + 600; // 移动到屏幕边缘
+        
+        // 基础移动：基于当前卡片的进度
+        let baseMove = cardProgress * moveDistance * 0.3; // 显示阶段轻微移动
+        
+        // 下一张卡片开始显示时的额外移动
+        let nextMove = 0;
         if (nextEasedProgress > 0) {
-          // 卡片在移动过程中继续放大
+          nextMove = nextEasedProgress * moveDistance * 0.7; // 淡出阶段大幅移动
+        }
+        
+        // 总移动距离
+        const totalMove = baseMove + nextMove;
+        
+        if (cardIndex % 2 === 0) {
+          // 偶数索引：向左移动
+          translateX = -totalMove;
+        } else {
+          // 奇数索引：向右移动
+          translateX = totalMove;
+        }
+        
+        // 卡片在移动过程中继续放大
+        if (nextEasedProgress > 0) {
           scale = 1 + nextEasedProgress * 0.5; // 从1.0放大到1.5
-          
-          // 根据卡片位置计算水平偏移
-          // 偶数索引（0,2,4...）向左移动，奇数索引（1,3,5...）向右移动
-          // 移动到屏幕最边缘，使用视口宽度的一半加上卡片宽度的一半
-          const moveDistance = window.innerWidth / 2 + 600; // 移动到屏幕边缘
-          if (cardIndex % 2 === 0) {
-            // 偶数索引：向左移动
-            translateX = -nextEasedProgress * moveDistance;
-          } else {
-            // 奇数索引：向右移动
-            translateX = nextEasedProgress * moveDistance;
-          }
         }
         
         // 当下一张卡片显示到一定程度时，当前卡片开始模糊和淡出
@@ -129,7 +145,7 @@ class ScrollingImageReveal {
           blur = Math.min(30, fadeProgress * 30); // 逐渐变模糊
         }
         
-        // 特殊处理最后一张卡片：当滚动进度达到100%后也开始移动
+        // 特殊处理最后一张卡片：当滚动进度达到100%后继续移动
         if (cardIndex === this.totalCards - 1 && scrollProgress >= 1.0) {
           // 计算超出100%的进度
           const extraProgress = Math.min(1, (scrollProgress - 1.0) * 2); // 0-1的额外进度
@@ -139,14 +155,14 @@ class ScrollingImageReveal {
           blur = Math.min(30, extraProgress * 30); // 逐渐变模糊
           scale = 1 + extraProgress * 0.5; // 从1.0放大到1.5
           
-          // 根据最后一张卡片的位置计算移动方向
-          const moveDistance = window.innerWidth / 2 + 600;
+          // 最后一张卡片的额外移动
+          const extraMove = extraProgress * moveDistance;
           if (cardIndex % 2 === 0) {
             // 偶数索引：向左移动
-            translateX = -extraProgress * moveDistance;
+            translateX = -totalMove - extraMove;
           } else {
             // 奇数索引：向右移动
-            translateX = extraProgress * moveDistance;
+            translateX = totalMove + extraMove;
           }
         }
         
