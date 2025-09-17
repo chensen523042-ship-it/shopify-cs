@@ -71,7 +71,7 @@
   
     {{ 'anniversary-hero.css' | asset_url | stylesheet_tag }}
   
-    {{ 'anniversary-hero.js' | asset_url | script_tag }}
+    <script src="{{ 'anniversary-hero.js' | asset_url }}" defer></script>
   </section>
   
   {% schema %}

@@ -33,7 +33,7 @@
 .prod-tag { font-size:12px; opacity:.7; margin-top:4px; }
 
 .deco { position:absolute; pointer-events:none; filter: drop-shadow(0 8px 20px rgba(0,0,0,.18)); }
-.ribbon { bottom: 65%; left: 0%; width: 20%; rotate: -3deg; }
+.ribbon { bottom: 75%; left: 0%; width: 30%; rotate: -3deg; }
 .coin { right: 4%; bottom: 18%; width: 80px; }
 
 @keyframes floaty { 0%{ transform: translateY(0) } 50%{ transform: translateY(-10px) } 100%{ transform: translateY(0) } }
