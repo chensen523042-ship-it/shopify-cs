@@ -276,9 +276,24 @@
         "pb": 11
       }
     },
+    "anniversary_hero_8XpFic": {
+      "type": "anniversary-hero",
+      "name": "Anniversary Hero",
+      "settings": {
+        "bg_image": "shopify://shop_images/business-pug-working-on-laptop.jpg",
+        "badge_text": "9th Anniversary",
+        "title": "Up to €591 Off & Gifts",
+        "subtitle": "Beyond Lawns. Beyond Limits.",
+        "enable_countdown": true,
+        "countdown_end_text": "2025-10-31 23:59:59",
+        "primary_label": "Shop now",
+        "primary_link": "shopify://products/yuka-mini-vision-副本",
+        "secondary_label": "Learn more",
+        "secondary_link": "shopify://collections/all"
+      }
+    },
     "separator_kfq8kz": {
       "type": "separator",
-      "disabled": true,
       "settings": {
         "bg_color": "bg-primary",
         "bg_opacity": 10,
@@ -383,6 +398,7 @@
       ],
       "name": "Scrolling image reveal",
       "settings": {
+        "background_title": "SCROLLING REVEAL",
         "bg_blur": 6,
         "reveal_duration": 700,
         "stagger": 120
@@ -805,6 +821,7 @@
     "featured_products_nXJKQn",
     "richtext_4miPYL",
     "richtext_AtYwxr",
+    "anniversary_hero_8XpFic",
     "featured_collections_n3Br7m",
     "separator_kfq8kz",
     "scrolling_image_reveal_MmmTYg",

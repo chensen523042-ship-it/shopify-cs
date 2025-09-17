@@ -1,0 +1,114 @@
+{% comment %}
+  Anniversary Hero Section (fixed schema)
+  - Background image, title/subtitle, countdown, CTAs, 4 product cards
+  - Works on any Online Store 2.0 theme
+{% endcomment %}
+
+<section id="anniversary-hero-{{ section.id }}" class="anniversary-hero">
+    <div class="hero-bg">
+      {% if section.settings.bg_image != blank %}
+        <img src="{{ section.settings.bg_image | image_url: width: 1880 }}" alt="{{ section.settings.title | escape }}" loading="eager" class="hero-bg-img" width="1880" height="auto"/>
+      {% else %}
+        <div class="hero-bg-fallback"></div>
+      {% endif %}
+    </div>
+  
+    <div class="hero-layer">
+      <div class="hero-inner page-width">
+        <div class="hero-copy">
+          {% if section.settings.badge_text != blank %}
+            <div class="hero-badge">{{ section.settings.badge_text }}</div>
+          {% endif %}
+  
+          <h1 class="hero-title">{{ section.settings.title }}</h1>
+          {% if section.settings.subtitle != blank %}
+            <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
+          {% endif %}
+  
+          {% if section.settings.enable_countdown and section.settings.countdown_end_text != blank %}
+            <div class="countdown" data-end="{{ section.settings.countdown_end_text | escape }}">
+              <div class="cd-item"><span class="num js-days">00</span><span class="lab">Days</span></div>
+              <div class="cd-item"><span class="num js-hours">00</span><span class="lab">Hrs</span></div>
+              <div class="cd-item"><span class="num js-mins">00</span><span class="lab">Mins</span></div>
+              <div class="cd-item"><span class="num js-secs">00</span><span class="lab">Secs</span></div>
+            </div>
+          {% endif %}
+  
+          <div class="hero-ctas">
+            {% if section.settings.primary_label != blank and section.settings.primary_link != blank %}
+              <a class="btn btn-primary" href="{{ section.settings.primary_link }}">{{ section.settings.primary_label }}</a>
+            {% endif %}
+            {% if section.settings.secondary_label != blank and section.settings.secondary_link != blank %}
+              <a class="btn btn-secondary" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label }}</a>
+            {% endif %}
+          </div>
+        </div>
+  
+        <div class="hero-products">
+          {% for block in section.blocks %}
+            <a class="prod-card" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                <img class="prod-img" src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="800" height="auto"/>
+              {% endif %}
+              <div class="prod-info">
+                <div class="prod-title">{{ block.settings.title }}</div>
+                {% if block.settings.tag != blank %}
+                  <div class="prod-tag">{{ block.settings.tag }}</div>
+                {% endif %}
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+  
+      {% if section.settings.ribbon_image != blank %}
+        <img class="ribbon deco float-slow" src="{{ section.settings.ribbon_image | image_url: width: 400 }}" alt="ribbon" loading="lazy" width="400" height="auto"/>
+      {% endif %}
+      {% if section.settings.coin_image != blank %}
+        <img class="coin deco float-fast" src="{{ section.settings.coin_image | image_url: width: 400 }}" alt="coin" loading="lazy" width="400" height="auto"/>
+      {% endif %}
+    </div>
+  
+    {{ 'anniversary-hero.css' | asset_url | stylesheet_tag }}
+  
+    {{ 'anniversary-hero.js' | asset_url | script_tag }}
+  </section>
+  
+  {% schema %}
+  {
+    "name": "Anniversary Hero",
+    "settings": [
+      { "type": "image_picker", "id": "bg_image", "label": "背景图（草地天空主图）" },
+      { "type": "image_picker", "id": "ribbon_image", "label": "飘带装饰 PNG/SVG（可选）" },
+      { "type": "image_picker", "id": "coin_image", "label": "硬币装饰 PNG/SVG（可选）" },
+  
+      { "type": "text", "id": "badge_text", "label": "角标文案", "default": "9th Anniversary" },
+      { "type": "text", "id": "title", "label": "主标题", "default": "Up to €591 Off & Gifts" },
+      { "type": "textarea", "id": "subtitle", "label": "副标题", "default": "Beyond Lawns. Beyond Limits." },
+  
+      { "type": "checkbox", "id": "enable_countdown", "label": "显示倒计时", "default": true },
+      { "type": "text", "id": "countdown_end_text", "label": "活动结束时间（示例：2025-08-31 23:59:59 或 2025-08-31T23:59:59+08:00）", "default": "2025-08-31 23:59:59" },
+  
+      { "type": "text", "id": "primary_label", "label": "主按钮文案", "default": "Shop now" },
+      { "type": "url",  "id": "primary_link",  "label": "主按钮链接" },
+      { "type": "text", "id": "secondary_label", "label": "次按钮文案", "default": "Learn more" },
+      { "type": "url",  "id": "secondary_link",  "label": "次按钮链接" }
+    ],
+    "blocks": [
+      {
+        "type": "product_card",
+        "name": "产品卡片",
+        "settings": [
+          { "type": "image_picker", "id": "image", "label": "产品图" },
+          { "type": "text", "id": "title", "label": "标题", "default": "LUBA 2 AWD" },
+          { "type": "text", "id": "tag", "label": "角标/卖点", "default": "New" },
+          { "type": "url", "id": "link", "label": "链接" }
+        ]
+      }
+    ],
+    "max_blocks": 4,
+    "presets": [
+      { "name": "Anniversary Hero" }
+    ]
+  }
+  {% endschema %}
