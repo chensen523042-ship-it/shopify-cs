@@ -217,6 +217,24 @@
         "pb": 11
       }
     },
+    "anniversary_hero_8XpFic": {
+      "type": "anniversary-hero",
+      "name": "Anniversary Hero",
+      "settings": {
+        "bg_image": "shopify://shop_images/business-pug-working-on-laptop.jpg",
+        "ribbon_image": "shopify://shop_images/bestmow-logo-transparent.png",
+        "coin_image": "shopify://shop_images/ChatGPT_Image_2025_8_26_16_29_54.png",
+        "badge_text": "NiuMa Happy Day",
+        "title": "Up to €591 Off & Gifts",
+        "subtitle": "Beyond Lawns. Beyond Limits.",
+        "enable_countdown": true,
+        "countdown_end_text": "2025-10-31 23:59:59",
+        "primary_label": "Shop now",
+        "primary_link": "shopify://products/yuka-mini-vision-副本",
+        "secondary_label": "Learn more",
+        "secondary_link": "shopify://collections/all"
+      }
+    },
     "featured_collections_n3Br7m": {
       "type": "featured-collections",
       "blocks": {
@@ -274,22 +292,6 @@
         "breakpoint_desktop": 2,
         "pt": 6,
         "pb": 11
-      }
-    },
-    "anniversary_hero_8XpFic": {
-      "type": "anniversary-hero",
-      "name": "Anniversary Hero",
-      "settings": {
-        "bg_image": "shopify://shop_images/business-pug-working-on-laptop.jpg",
-        "badge_text": "9th Anniversary",
-        "title": "Up to €591 Off & Gifts",
-        "subtitle": "Beyond Lawns. Beyond Limits.",
-        "enable_countdown": true,
-        "countdown_end_text": "2025-10-31 23:59:59",
-        "primary_label": "Shop now",
-        "primary_link": "shopify://products/yuka-mini-vision-副本",
-        "secondary_label": "Learn more",
-        "secondary_link": "shopify://collections/all"
       }
     },
     "separator_kfq8kz": {
