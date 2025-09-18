@@ -120,6 +120,64 @@
         "pb": 10
       }
     },
+    "marquee_qQXXgL": {
+      "type": "marquee",
+      "blocks": {
+        "text_ezYyNU": {
+          "type": "text",
+          "settings": {
+            "text": "Free shipping on orders over $50",
+            "link": ""
+          }
+        },
+        "image_LGQkjj": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/bestmow-logo-transparent.png",
+            "alt_text": "",
+            "image_width": 150,
+            "image_height": 150,
+            "link": ""
+          }
+        },
+        "icon_jtfHUp": {
+          "type": "icon",
+          "settings": {
+            "icon_type": "svg",
+            "svg_icon": "heart",
+            "text_icon": "⭐",
+            "icon_alt": "",
+            "icon_size": 24,
+            "stroke_width": 2,
+            "icon_color": "#111111",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "text_ezYyNU",
+        "image_LGQkjj",
+        "icon_jtfHUp"
+      ],
+      "name": "Marquee",
+      "settings": {
+        "container_width": "full-width",
+        "text_style": "h1",
+        "font_size_desktop": 35,
+        "font_size_mobile": 18,
+        "letter_spacing": 0,
+        "uppercase": true,
+        "gap": 32,
+        "direction": "left",
+        "speed": 24,
+        "pause_on_hover": true,
+        "enable_reduced_motion": true,
+        "background_color": "#ffffff",
+        "text_color": "#111111",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
     "collection_products_Fx3hb6": {
       "type": "collection-products",
       "settings": {
@@ -162,6 +220,7 @@
   "order": [
     "collection_header_JKf7mh",
     "featured_collections_QTjWAR",
+    "marquee_qQXXgL",
     "collection_products_Fx3hb6",
     "da87b500-2710-4252-99e4-4bd5db55af39"
   ]
