@@ -156,7 +156,7 @@
         "slider_autoplay": 0,
         "breakpoint_mobile": 1,
         "breakpoint_tablet": 2,
-        "breakpoint_desktop": 4,
+        "breakpoint_desktop": 3,
         "pt": 10,
         "pb": 11
       }
@@ -283,10 +283,13 @@
         "collection_card_text_align": "text-center",
         "collection_card_img_orientation": "adapt",
         "collection_card_img_border": "rounded",
+        "collection_card_img_size": 400,
         "collection_card_show_title": true,
         "collection_card_title_font_size": "fs-xxl",
         "collection_card_title_position": "collection-card-title-normal",
         "collection_card_show_product_count": true,
+        "collection_card_show_button": true,
+        "collection_card_title_position_new": "overlay",
         "breakpoint_mobile": 1,
         "breakpoint_tablet": 2,
         "breakpoint_desktop": 2,
