@@ -203,6 +203,32 @@
         "pb": 10
       }
     },
+    "hero_background_video_fecUpc": {
+      "type": "hero-background-video",
+      "name": "Hero Background Video",
+      "settings": {
+        "video_source": "mp4",
+        "video_mp4": "shopify://files/videos/036cda4b8d2e424bbab535d24685fbae.HD-1080p-4.8Mbps-45636139.mp4",
+        "hero_height": "80vh",
+        "text_align": "center",
+        "kicker": "",
+        "heading": "UP  TO  50% SALE",
+        "subheading": "",
+        "show_countdown": true,
+        "countdown_label": "",
+        "countdown_end_date": "2025-12-31 23:59:59",
+        "countdown_number_color": "#ffffff",
+        "primary_link": "shopify://collections/sale-products",
+        "primary_label": "Shop now",
+        "secondary_link": "",
+        "secondary_label": "Learn more",
+        "text_color": "#ffffff",
+        "primary_btn_bg": "#ffffff",
+        "primary_btn_text": "#000000",
+        "overlay_color": "#000000",
+        "overlay_opacity": 35
+      }
+    },
     "da87b500-2710-4252-99e4-4bd5db55af39": {
       "type": "separator",
       "disabled": true,
@@ -222,6 +248,7 @@
     "featured_collections_QTjWAR",
     "marquee_qQXXgL",
     "collection_products_Fx3hb6",
+    "hero_background_video_fecUpc",
     "da87b500-2710-4252-99e4-4bd5db55af39"
   ]
 }
