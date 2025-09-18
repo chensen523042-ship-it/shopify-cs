@@ -1,0 +1,467 @@
+{% comment %}
+  Hero Background Video (Nova-ready)
+  - 支持：自托管 MP4（settings.video_mp4）、YouTube/Vimeo（settings.video_url）
+  - 覆盖层、标题/副标题、按钮、对齐方式、视口高度
+  - prefers-reduced-motion：自动降级为 poster
+  - IntersectionObserver：离屏暂停节能（MP4/iframe 均支持）
+  使用：
+  1) 进入 主题编辑器 → 添加板块 → Hero Background Video
+  2) 选择视频来源（MP4 或 YouTube/Vimeo），并设置 poster（建议必填）
+{% endcomment %}
+
+<section
+  id="section-{{ section.id }}"
+  class="hero-video"
+  data-section-id="{{ section.id }}"
+  data-source="{{ section.settings.video_source }}"
+  data-reduce-motion="true"
+  style="--hero-min-h: {{ section.settings.hero_height }}; --overlay: {{ section.settings.overlay_color }}; --overlay-alpha: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
+>
+  <div class="hero-video__media">
+
+    {%- case section.settings.video_source -%}
+      {%- when 'mp4' -%}
+        {% if section.settings.video_mp4 != blank %}
+          <video
+            class="hero-video__video"
+            playsinline
+            muted
+            loop
+            preload="metadata"
+            autoplay
+            aria-hidden="true"
+          >
+            <source src="{{ section.settings.video_mp4 | video_tag }}" type="video/mp4">
+          </video>
+        {% endif %}
+      {%- when 'external' -%}
+        {% if section.settings.video_url != blank %}
+          {% assign provider = section.settings.video_url.type %}
+          {% assign video_id = section.settings.video_url.id %}
+          <div class="hero-video__iframe-wrap" data-provider="{{ provider }}" data-id="{{ video_id }}">
+            {% if provider == 'youtube' %}
+              <iframe
+                class="hero-video__iframe"
+                title="YouTube video"
+                src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist={{ video_id }}&rel=0&modestbranding=1"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+                aria-hidden="true"
+              ></iframe>
+            {% elsif provider == 'vimeo' %}
+              <iframe
+                class="hero-video__iframe"
+                title="Vimeo video"
+                src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1&muted=1&background=1&loop=1&controls=0&playsinline=1"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+                aria-hidden="true"
+              ></iframe>
+            {% endif %}
+          </div>
+        {% endif %}
+    {%- endcase -%}
+
+    <div class="hero-video__overlay" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero-video__content hero-video__content--{{ section.settings.text_align }}">
+    {% if section.settings.kicker != blank %}
+      <p class="hero-video__kicker">{{ section.settings.kicker }}</p>
+    {% endif %}
+    {% if section.settings.heading != blank %}
+      <h1 class="hero-video__heading">{{ section.settings.heading }}</h1>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+      <p class="hero-video__subheading">{{ section.settings.subheading }}</p>
+    {% endif %}
+
+    {% if section.settings.show_countdown %}
+      <div class="hero-video__countdown" data-end-date="{{ section.settings.countdown_end_date }}">
+        <div class="countdown__label">{{ section.settings.countdown_label }}</div>
+        <div class="countdown__timer">
+          <div class="countdown__item">
+            <span class="countdown__number" data-days>00</span>
+            <span class="countdown__unit">天</span>
+          </div>
+          <div class="countdown__item">
+            <span class="countdown__number" data-hours>00</span>
+            <span class="countdown__unit">时</span>
+          </div>
+          <div class="countdown__item">
+            <span class="countdown__number" data-minutes>00</span>
+            <span class="countdown__unit">分</span>
+          </div>
+          <div class="countdown__item">
+            <span class="countdown__number" data-seconds>00</span>
+            <span class="countdown__unit">秒</span>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="hero-video__actions">
+      {% if section.settings.primary_label != blank and section.settings.primary_link != blank %}
+        <a class="hero-video__btn hero-video__btn--primary" href="{{ section.settings.primary_link }}">
+          {{- section.settings.primary_label -}}
+        </a>
+      {% endif %}
+      {% if section.settings.secondary_label != blank and section.settings.secondary_link != blank %}
+        <a class="hero-video__btn hero-video__btn--secondary" href="{{ section.settings.secondary_link }}">
+          {{- section.settings.secondary_label -}}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+</section>
+
+<style>
+  #section-{{ section.id }}.hero-video{
+    position:relative; isolation:isolate;
+    min-height:var(--hero-min-h, 80vh);
+    display:grid; place-items:center; overflow:hidden;
+    color:{{ section.settings.text_color }};
+  }
+  .hero-video__media{position:absolute; inset:0; z-index:0;}
+  .hero-video__video, .hero-video__iframe-wrap{position:absolute; inset:0; width:100%; height:100%;}
+  .hero-video__video{object-fit:cover; width:100%; height:100%;}
+  .hero-video__iframe, .hero-video__iframe-wrap iframe{width:100%; height:100%; border:0;}
+  .hero-video__overlay{
+    position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0)) ;
+    background-color: color-mix(in srgb, var(--overlay) calc(var(--overlay-alpha)*100%), transparent);
+    z-index:1;
+  }
+  .hero-video__content{
+    position:relative; z-index:2; max-width: min(100%, 1200px);
+    padding: clamp(24px, 6vw, 64px);
+    text-align:center;
+    align-self: end;
+    margin-bottom: clamp(20px, 4vw, 40px);
+  }
+  .hero-video__content--left{justify-self:start; text-align:left;}
+  .hero-video__content--center{justify-self:center; text-align:center;}
+  .hero-video__content--right{justify-self:end; text-align:right;}
+
+  .hero-video__kicker{font-size:clamp(12px,1.3vw,14px); letter-spacing:.12em; text-transform:uppercase; opacity:.9; margin:0 0 .5rem;}
+  .hero-video__heading{font-size:clamp(28px,6.5vw,56px); line-height:1.05; margin:0 0 .6rem; font-weight:700;}
+  .hero-video__subheading{font-size:clamp(14px,2.2vw,18px); opacity:.92; margin:0 0 1rem;}
+  .hero-video__actions{display:flex; gap:.75rem; flex-wrap:wrap; justify-content:var(--btn-just, center)}
+  .hero-video__content--left .hero-video__actions{justify-content:flex-start}
+  .hero-video__content--right .hero-video__actions{justify-content:flex-end}
+
+  .hero-video__btn{display:inline-block; padding:.78rem 1.2rem; border-radius:999px; border:1px solid currentColor; text-decoration:none}
+  .hero-video__btn--primary{background:{{ section.settings.primary_btn_bg }}; color:{{ section.settings.primary_btn_text }}; border-color:transparent}
+  .hero-video__btn--secondary{background:transparent; color:{{ section.settings.text_color }}; border-color:currentColor; opacity:.95}
+
+  .hero-video__countdown{
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+  .countdown__label{
+    font-size: clamp(14px, 2vw, 18px);
+    margin-bottom: 1rem;
+    opacity: 0.9;
+    font-weight: 500;
+  }
+  .countdown__timer{
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .countdown__item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+  }
+  .countdown__number{
+    display: block;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+    color: {{ section.settings.countdown_number_color | default: section.settings.text_color }};
+  }
+  .countdown__unit{
+    font-size: clamp(12px, 1.5vw, 14px);
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .countdown--expired{
+    opacity: 0.6;
+  }
+  .countdown--expired .countdown__label{
+    text-decoration: line-through;
+  }
+
+
+  @media (prefers-reduced-motion: reduce){
+    #section-{{ section.id }} .hero-video__video{display:none}
+    #section-{{ section.id }} .hero-video__iframe-wrap{display:none}
+  }
+</style>
+
+<script>
+  (function () {
+    const root = document.getElementById('section-{{ section.id }}');
+    if (!root) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const videoEl = root.querySelector('.hero-video__video');
+    const iframeWrap = root.querySelector('.hero-video__iframe-wrap');
+    const countdownEl = root.querySelector('.hero-video__countdown');
+
+    // 倒计时功能
+    if (countdownEl) {
+      const endDate = new Date(countdownEl.dataset.endDate).getTime();
+      const daysEl = countdownEl.querySelector('[data-days]');
+      const hoursEl = countdownEl.querySelector('[data-hours]');
+      const minutesEl = countdownEl.querySelector('[data-minutes]');
+      const secondsEl = countdownEl.querySelector('[data-seconds]');
+
+      const updateCountdown = () => {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+
+        if (distance < 0) {
+          // 倒计时结束
+          daysEl.textContent = '00';
+          hoursEl.textContent = '00';
+          minutesEl.textContent = '00';
+          secondsEl.textContent = '00';
+          countdownEl.classList.add('countdown--expired');
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        daysEl.textContent = days.toString().padStart(2, '0');
+        hoursEl.textContent = hours.toString().padStart(2, '0');
+        minutesEl.textContent = minutes.toString().padStart(2, '0');
+        secondsEl.textContent = seconds.toString().padStart(2, '0');
+      };
+
+      // 立即更新一次
+      updateCountdown();
+      
+      // 每秒更新
+      const countdownInterval = setInterval(updateCountdown, 1000);
+    }
+
+    // 进入视口时播放，离开暂停（节能 & 避免多视频叠加）
+    const handlePlayState = (inView) => {
+      if (reduce) return;
+      if (videoEl) {
+        if (inView) {
+          videoEl.play().catch(() => {});
+        } else {
+          videoEl.pause();
+        }
+      }
+      if (iframeWrap) {
+        const provider = iframeWrap.dataset.provider;
+        const id = iframeWrap.dataset.id;
+        const iframe = iframeWrap.querySelector('iframe');
+        if (!iframe) return;
+        if (provider === 'youtube') {
+          // YouTube postMessage API
+          iframe.contentWindow &&
+            iframe.contentWindow.postMessage(
+              JSON.stringify({
+                event: 'command',
+                func: inView ? 'playVideo' : 'pauseVideo',
+                args: '',
+              }),
+              '*'
+            );
+        } else if (provider === 'vimeo') {
+          // Vimeo player API
+          iframe.contentWindow && iframe.contentWindow.postMessage({ method: inView ? 'play' : 'pause' }, '*');
+        }
+      }
+      root.classList.toggle('is-paused', !inView);
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => handlePlayState(e.isIntersecting));
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(root);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Hero Background Video",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "video_source",
+      "label": "视频来源",
+      "default": "mp4",
+      "options": [
+        { "value": "mp4", "label": "上传 MP4（Shopify 文件）" },
+        { "value": "external", "label": "YouTube / Vimeo" }
+      ]
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "YouTube 或 Vimeo 链接",
+      "accept": ["youtube", "vimeo"],
+      "info": "当选择外链视频来源时生效"
+    },
+    {
+      "type": "video",
+      "id": "video_mp4",
+      "label": "MP4 文件",
+      "info": "建议 H.264/AAC，短循环视频，≤8MB"
+    },
+    {
+      "type": "select",
+      "id": "hero_height",
+      "label": "区块高度",
+      "default": "80vh",
+      "options": [
+        { "value": "60vh", "label": "60% 视口高" },
+        { "value": "80vh", "label": "80% 视口高" },
+        { "value": "100vh", "label": "100% 视口高" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "文案对齐",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "左对齐" },
+        { "value": "center", "label": "居中" },
+        { "value": "right", "label": "右对齐" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "上导语（可选）",
+      "default": "上导语"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "主标题",
+      "default": "Crafted for Motion"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "副标题",
+      "default": "Show your brand with immersive, lightweight background video."
+    },
+    {
+      "type": "header",
+      "content": "倒计时设置"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_countdown",
+      "label": "显示倒计时",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "countdown_label",
+      "label": "倒计时标签",
+      "default": "限时优惠即将结束",
+      "info": "显示在倒计时上方的文字"
+    },
+    {
+      "type": "text",
+      "id": "countdown_end_date",
+      "label": "结束时间",
+      "default": "2024-12-31 23:59:59",
+      "info": "格式：YYYY-MM-DD HH:MM:SS"
+    },
+    {
+      "type": "color",
+      "id": "countdown_number_color",
+      "label": "倒计时数字颜色",
+      "default": "#ffffff",
+      "info": "倒计时数字的颜色"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "主按钮链接"
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "主按钮文案",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "次按钮链接"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "次按钮文案",
+      "default": "Learn more"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "文字颜色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_bg",
+      "label": "主按钮背景色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_text",
+      "label": "主按钮文字色",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "覆盖层颜色",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "覆盖层不透明度",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 35
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Background Video",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}
