@@ -15,13 +15,13 @@
         "bg_image": "shopify://shop_images/highlight-01.webp",
         "bg_image_position": "center center",
         "bg_image_size": "cover",
-        "bg_image_opacity": 100,
+        "bg_image_opacity": 50,
         "bg_color": "bg-primary",
         "bg_opacity": 10,
         "bg_gradient": "",
         "text_color": "text-white",
         "title_font_size": "h1",
-        "title_font_weight": "fw-bold",
+        "title_font_weight": "fw-semibold",
         "description_show": true,
         "description_font_size": "fs-md",
         "container_max_width": "600",
@@ -35,51 +35,51 @@
         "pb_desktop": 20
       }
     },
-    "featured_collections_r8rnNh": {
+    "featured_collections_QTjWAR": {
       "type": "featured-collections",
       "blocks": {
-        "collection_3DkyG9": {
+        "collection_H4bc6Q": {
           "type": "collection",
           "settings": {
             "collection": "accessories",
             "title": ""
           }
         },
-        "collection_aftHFE": {
-          "type": "collection",
-          "settings": {
-            "collection": "huawei",
-            "title": ""
-          }
-        },
-        "collection_YgR3wa": {
+        "collection_MR7Wm6": {
           "type": "collection",
           "settings": {
             "collection": "mower",
             "title": ""
           }
         },
-        "collection_BgyUgd": {
+        "collection_Fygrwt": {
+          "type": "collection",
+          "settings": {
+            "collection": "xiaomi-phone",
+            "title": ""
+          }
+        },
+        "collection_n6X3mn": {
           "type": "collection",
           "settings": {
             "collection": "shirt",
             "title": ""
           }
         },
-        "collection_DR6Rm9": {
+        "collection_RpzPNf": {
           "type": "collection",
           "settings": {
-            "collection": "xiaomi-phone",
+            "collection": "huawei",
             "title": ""
           }
         }
       },
       "block_order": [
-        "collection_3DkyG9",
-        "collection_aftHFE",
-        "collection_YgR3wa",
-        "collection_BgyUgd",
-        "collection_DR6Rm9"
+        "collection_H4bc6Q",
+        "collection_MR7Wm6",
+        "collection_Fygrwt",
+        "collection_n6X3mn",
+        "collection_RpzPNf"
       ],
       "name": "Featured collections",
       "settings": {
@@ -93,26 +93,23 @@
         "border_opacity": 100,
         "container_max_width": "",
         "header_title": "",
-        "header_title_font_size": "h3",
+        "header_title_font_size": "h2",
         "header_description": "",
         "header_description_font_size": "fs-md",
         "slider_speed": 300,
         "slider_navigation": true,
         "slider_pagination": true,
         "slider_pagination_type": "bullets",
-        "slider_scrollbar": true,
+        "slider_scrollbar": false,
         "slider_partial_slides_mobile": false,
         "slider_autoplay": 0,
         "collection_card_text_align": "text-center",
         "collection_card_img_orientation": "ratio-4x3",
         "collection_card_img_border": "rounded",
-        "collection_card_img_size": 600,
         "collection_card_show_title": true,
-        "collection_card_title_font_size": "fs-xl",
+        "collection_card_title_font_size": "fs-lg",
         "collection_card_title_position": "collection-card-title-bottom",
         "collection_card_show_product_count": true,
-        "collection_card_show_button": false,
-        "collection_card_title_position_new": "below",
         "breakpoint_mobile": 1,
         "breakpoint_tablet": 2,
         "breakpoint_desktop": 3,
@@ -161,7 +158,7 @@
   },
   "order": [
     "collection_header_JKf7mh",
-    "featured_collections_r8rnNh",
+    "featured_collections_QTjWAR",
     "collection_products_Fx3hb6",
     "da87b500-2710-4252-99e4-4bd5db55af39"
   ]
