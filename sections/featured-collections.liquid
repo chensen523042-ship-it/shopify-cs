@@ -313,6 +313,17 @@
       ]
     },
     {
+      "type": "range",
+      "id": "collection_card_img_size",
+      "label": "Image size",
+      "min": 200,
+      "max": 1200,
+      "step": 50,
+      "default": 400,
+      "unit": "px",
+      "info": "Controls the width of collection images for consistent sizing"
+    },
+    {
       "type": "checkbox",
       "id": "collection_card_show_title",
       "label": "Show title",
@@ -348,6 +359,22 @@
       "id": "collection_card_show_product_count",
       "label": "Show product count",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_card_show_button",
+      "label": "Show button",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "collection_card_title_position_new",
+      "label": "Title position",
+      "default": "overlay",
+      "options": [
+        { "value": "overlay", "label": "Overlay on image" },
+        { "value": "below", "label": "Below image" }
+      ]
     },
     {
       "type": "header",

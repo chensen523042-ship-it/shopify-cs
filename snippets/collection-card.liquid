@@ -19,8 +19,8 @@
     href="{{ collection.url }}" 
     class="collection-card-link">
     <div class="collection-card-img-wrapper">
-      {% render 'image-url', img: img, size: 1200, orientation: section.settings.collection_card_img_orientation, class: section.settings.collection_card_img_border %}
-      {% if section.settings.collection_card_show_title %}
+      {% render 'image-url', img: img, size: section.settings.collection_card_img_size, orientation: section.settings.collection_card_img_orientation, class: section.settings.collection_card_img_border %}
+      {% if section.settings.collection_card_show_title and section.settings.collection_card_title_position_new == 'overlay' %}
         <div class="collection-card-title-overlay">
           <h3 
             class="
@@ -29,13 +29,33 @@
             ">
             {{ title }}
           </h3>
+          {% if section.settings.collection_card_show_button %}
+            <div class="collection-card-button-wrapper">
+              <button class="collection-card-shop-now-btn">
+                Shop Now >
+              </button>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+    {% if section.settings.collection_card_show_title and section.settings.collection_card_title_position_new == 'below' %}
+      <div class="collection-card-title-below">
+        <h3 
+          class="
+            collection-card-title collection-title mb-2 
+            {{ section.settings.collection_card_title_font_size }}
+          ">
+          {{ title }}
+        </h3>
+        {% if section.settings.collection_card_show_button %}
           <div class="collection-card-button-wrapper">
             <button class="collection-card-shop-now-btn">
               Shop Now >
             </button>
           </div>
-        </div>
-      {% endif %}
-    </div>
+        {% endif %}
+      </div>
+    {% endif %}
   </a>
 </div>
