@@ -1,7 +1,20 @@
+{% comment %}
+  Collection Header Section
+  Displays collection title, description, and background image
+{% endcomment %}
+
+{%- liquid
+  assign bg_image = section.settings.bg_image | default: collection.image
+  assign has_bg_image = false
+  if bg_image != nil
+    assign has_bg_image = true
+  endif
+-%}
+
 <header 
   id="collection-header-{{ section.id }}"
   class="
-    collection-header image-overlay
+    collection-header position-relative
     {{ section.settings.bg_color }} 
     {{ section.settings.bg_gradient }}
     {{ section.settings.text_color }}
@@ -16,36 +29,38 @@
   style="
     --bs-bg-opacity: {{ section.settings.bg_opacity | append: '%' }};
     --bs-border-opacity: {{ section.settings.border_opacity | append: '%' }};
+    {% if has_bg_image %}
+      background-image: url('{{ bg_image | image_url: width: 1920 }}');
+      background-position: {{ section.settings.bg_image_position }};
+      background-size: {{ section.settings.bg_image_size }};
+      background-repeat: no-repeat;
+    {% endif %}
   ">
-  {% if section.settings.img_show and collection.image != nil %}
+  
+  {% if has_bg_image %}
     <div 
-      class="img-wrapper"
+      class="position-absolute top-0 start-0 w-100 h-100"
       style="
-        --overlay-color-rgb: {{ section.settings.img_overlay_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
-        --overlay-opacity: {{ section.settings.img_overlay_opacity | append: '%' }};
-        --overlay-blur: {{ section.settings.img_overlay_blur | append: 'px' }}
+        background-color: rgba(0, 0, 0, {{ 100 | minus: section.settings.bg_image_opacity | divided_by: 100.0 }});
+        z-index: 1;
       ">
-      <img
-        srcset="{{ collection.image | image_url: width: 800 }} 800w, {{ collection.image | image_url: width: 1600 }} 1600w"
-        src="{{ collection.image | image_url: width: 1600 }}"
-        class="img-fluid"
-        alt="{{ collection.image.alt }}"
-        width="1600"
-        height="{{ 1600 | divided_by: collection.image.aspect_ratio }}"
-        loading="eager">
-      </div>
+    </div>
   {% endif %}
+
   <div 
-    class="container"
-    style="max-width: {{ section.settings.container_max_width | append: 'px' }};">
-    <h2 class="title {{ section.settings.title_font_size }}">
-      <span>{{ collection.title }}</span>
-    </h2>
+    class="container position-relative"
+    style="max-width: {{ section.settings.container_max_width | append: 'px' }}; z-index: 2;">
+    
+    <h1 class="title {{ section.settings.title_font_size }} {{ section.settings.title_font_weight }} mb-0">
+      {{ collection.title }}
+    </h1>
+    
     {% if section.settings.description_show and collection.description != blank %}
-      <div class="description rte mb-0 {{ section.settings.description_font_size }}">
+      <div class="description rte mt-3 {{ section.settings.description_font_size }}">
         {{ collection.description }}
       </div>
     {% endif %}
+    
   </div>
 </header>
 
@@ -55,7 +70,51 @@
   "settings": [
     {
       "type": "header",
-      "content": "Styling"
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image",
+      "info": "Upload a custom background image. If not set, the collection image will be used as background."
+    },
+    {
+      "type": "select",
+      "id": "bg_image_position",
+      "label": "Background image position",
+      "default": "center center",
+      "options": [
+        { "value": "top left", "label": "Top left" },
+        { "value": "top center", "label": "Top center" },
+        { "value": "top right", "label": "Top right" },
+        { "value": "center left", "label": "Center left" },
+        { "value": "center center", "label": "Center center" },
+        { "value": "center right", "label": "Center right" },
+        { "value": "bottom left", "label": "Bottom left" },
+        { "value": "bottom center", "label": "Bottom center" },
+        { "value": "bottom right", "label": "Bottom right" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "bg_image_size",
+      "label": "Background image size",
+      "default": "cover",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" },
+        { "value": "auto", "label": "Auto" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "bg_image_opacity",
+      "label": "Background image opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "%"
     },
     {
       "type": "select",
@@ -90,6 +149,10 @@
       "default": ""
     },
     {
+      "type": "header",
+      "content": "Text"
+    },
+    {
       "type": "select",
       "id": "text_color",
       "label": "Text color",
@@ -100,6 +163,65 @@
         { "value": "text-body", "label": "Body" },
         { "value": "text-white", "label": "White" }
       ]
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title font-size",
+      "default": "h2",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title font-weight",
+      "default": "fw-bold",
+      "options": [
+        { "value": "fw-light", "label": "Light (300)" },
+        { "value": "fw-normal", "label": "Normal (400)" },
+        { "value": "fw-medium", "label": "Medium (500)" },
+        { "value": "fw-semibold", "label": "Semi Bold (600)" },
+        { "value": "fw-bold", "label": "Bold (700)" },
+        { "value": "fw-bolder", "label": "Bolder (800)" },
+        { "value": "fw-black", "label": "Black (900)" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "description_show",
+      "label": "Show collection description",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "description_font_size",
+      "label": "Description font-size",
+      "default": "fs-md",
+      "options": [
+        { "value": "fs-sm", "label": "sm" },
+        { "value": "fs-md", "label": "md" },
+        { "value": "fs-lg", "label": "lg" },
+        { "value": "fs-xs", "label": "xs" },
+        { "value": "fs-xxl", "label": "xxl" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "text",
+      "id": "container_max_width",
+      "label": "Container max-width (px)",
+      "info": "Leave empty to use the global container width",
+      "default": "600"
     },
     {
       "type": "range",
@@ -142,85 +264,6 @@
       "step": 1,
       "default": 100,
       "unit": "%"
-    },
-    {
-      "type": "text",
-      "id": "container_max_width",
-      "label": "Container max-width (px)",
-      "info": "Leave empty to use the global container width",
-      "default": "600"
-    },
-    {
-      "type": "header",
-      "content": "Collection image"
-    },
-    {
-      "type": "checkbox",
-      "id": "img_show",
-      "label": "Show collection image",
-      "default": true
-    },
-    {
-      "type": "color",
-      "id": "img_overlay_color",
-      "label": "Overlay color",
-      "default": "#000000"
-    },
-    {
-      "type": "range",
-      "id": "img_overlay_opacity",
-      "label": "Overlay opacity",
-      "min": 0,
-      "max": 100,
-      "step": 10,
-      "default": 30,
-      "unit": "%"
-    },
-    {
-      "type": "range",
-      "id": "img_overlay_blur",
-      "label": "Overlay blur",
-      "min": 0,
-      "max": 10,
-      "step": 1,
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "Text"
-    },
-    {
-      "type": "select",
-      "id": "title_font_size",
-      "label": "Title font-size",
-      "default": "h2",
-      "options": [
-        { "value": "h1", "label": "H1" },
-        { "value": "h2", "label": "H2" },
-        { "value": "h3", "label": "H3" },
-        { "value": "h4", "label": "H4" },
-        { "value": "h5", "label": "H5" },
-        { "value": "h6", "label": "H6" }
-      ]
-    },
-    {
-      "type": "checkbox",
-      "id": "description_show",
-      "label": "Show collection description",
-      "default": true
-    },
-    {
-      "type": "select",
-      "id": "description_font_size",
-      "label": "Description font-size",
-      "default": "fs-md",
-      "options": [
-        { "value": "fs-sm", "label": "sm" },
-        { "value": "fs-md", "label": "md" },
-        { "value": "fs-lg", "label": "lg" },
-        { "value": "fs-xs", "label": "xs" },
-        { "value": "fs-xxl", "label": "xxl" }
-      ]
     },
     {
       "type": "header",
