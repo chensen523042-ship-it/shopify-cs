@@ -12,7 +12,7 @@
     "collection_header_JKf7mh": {
       "type": "collection-header",
       "settings": {
-        "bg_image": "shopify://shop_images/highlight-01.webp",
+        "bg_image": "{{ collection.metafields.custom.header_image.value }}",
         "bg_image_position": "center center",
         "bg_image_size": "cover",
         "bg_image_opacity": 50,
