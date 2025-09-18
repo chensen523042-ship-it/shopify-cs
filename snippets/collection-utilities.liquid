@@ -8,11 +8,21 @@
       assign active_filter_values = filter.active_values.size | plus: active_filter_values
     endif
   endfor
+
+  assign default_sort_by = 'best-selling'
+  assign current_sort_by = collection.sort_by | default: default_sort_by
+  assign current_sort_name = 'collection.sort_by' | t
+  for option in collection.sort_options
+    if option.value == current_sort_by
+      assign current_sort_name = option.name
+      break
+    endif
+  endfor
 %}
 
-<div class="collection-utilities mb-5 {% unless section.settings.show_product_count %}justify-content-end{% endunless %}">
+<div class="collection-utilities mb-5 d-flex justify-content-between align-items-center">
   {% if section.settings.show_product_count %}
-    <p class="collection-product-count small mb-0">
+    <p class="collection-product-count fw-bold fs-5 mb-0">
       {{ 'collection.count_products' | t: count: collection.products_count }}
     </p>
   {% endif %}
@@ -20,7 +30,7 @@
     <div class="d-flex align-items-center mx-n2">
       {% if section.settings.show_filters %}
         <button 
-          class="btn btn-sm mx px-4 mx-2 {{ section.settings.filters_btn_color }}" 
+          class="btn btn-sm mx px-4 mx-2 {{ section.settings.filters_btn_color }} fw-bold fs-6" 
           type="button" 
           data-bs-toggle="offcanvas" 
           data-bs-target="#offcanvas-collection-filters"
@@ -37,11 +47,11 @@
       {% if section.settings.show_sort_by %}
         <sort-by class="sort-by dropdown">
           <button 
-            class="btn btn-sm px-4 dropdown-toggle mx-2 {{ section.settings.sort_by_btn_color }}" 
+            class="btn btn-sm px-4 dropdown-toggle mx-2 {{ section.settings.sort_by_btn_color }} fw-bold fs-6" 
             type="button" 
             data-bs-toggle="dropdown" 
             aria-expanded="false">
-            {{ 'collection.sort_by' | t }}
+            {{ current_sort_name }}
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             {% for option in collection.sort_options %}
@@ -52,7 +62,7 @@
                   name="sort_by" 
                   id="sort-by-{{ option.value }}" 
                   value="{{ option.value }}"
-                  {% if option.value == collection.sort_by %}checked{% endif %}>
+                  {% if option.value == current_sort_by %}checked{% endif %}>
                 <label class="dropdown-item" for="sort-by-{{ option.value }}">
                   {{ option.name }}
                 </label>

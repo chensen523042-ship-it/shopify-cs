@@ -9,10 +9,10 @@
 {% endcomment %}
 
 <div class="product-card {{ settings.product_card_text_align }}">
-  <a 
-    href="{{ product.url | within: collection }}" 
-    class="product-card-link">
-    <div class="product-card-img-wrapper mb-4">      
+  <div class="product-card-img-wrapper mb-4">      
+    <a 
+      href="{{ product.url | within: collection }}" 
+      class="product-card-link">
       {% if product.available == false %}
         <span class="product-sold-out-badge badge"
           {% if current_variant.available %}hidden{% endif %}>
@@ -36,15 +36,32 @@
         </span>
       {% endif %}
       {% render 'image-url', img: product.featured_image, orientation: settings.product_card_img_orientation, class: settings.product_card_img_border %}
-    </div>
+    </a>
+    
+    {% if product.available %}
+      <div class="product-card-add-to-cart">
+        <product-form>
+          {% form 'product', product, data-productid: product.id %}
+            <input type="hidden" name="id" data-productid="{{ product.id }}" value="{{ product.selected_or_first_available_variant.id }}">
+            <button 
+              type="submit" 
+              class="btn-add-to-cart"
+              name="add">
+              {{ 'product.add_to_cart' | t }}
+            </button>
+          {% endform %}
+        </product-form>
+      </div>
+    {% endif %}
+  </div>
+  <a 
+    href="{{ product.url | within: collection }}" 
+    class="product-card-link">
     <h3 class="product-card-title product-title {{ settings.product_card_title_font_size }}">
       {{ product.title }}
     </h3>
     {% render 'product-rating-badge', product: product %}
     {% render 'product-card-price', product: product %}
   </a>
-  {% if settings.product_card_show_atc_form %}
-    {% render 'product-card-form', product: product %}
-  {% endif %}
 </div>
 

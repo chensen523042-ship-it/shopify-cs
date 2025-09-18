@@ -6,11 +6,18 @@
 class ProductForm extends HTMLElement {
   constructor () {
     super()
+    console.log('ProductForm constructor called')
 
     this.form = this.querySelector('form')
     this.productOptions = this.form.querySelectorAll('.product-options [name*="option"]')
-    this.atcBtn = this.form.querySelector('.btn-atc')
+    this.atcBtn = this.form.querySelector('.btn-atc') || this.form.querySelector('.btn-add-to-cart')
     this.buyBtn = this.form.querySelector('.btn-buy')
+
+    console.log('ProductForm elements:', {
+      form: this.form,
+      atcBtn: this.atcBtn,
+      buyBtn: this.buyBtn
+    })
 
     this.form.addEventListener('submit', event => this.onSubmit(event))
 
@@ -116,14 +123,35 @@ class ProductForm extends HTMLElement {
 
   async onSubmit (event) {
     event.preventDefault()
+    console.log('ProductForm onSubmit called')
+
+    if (!this.atcBtn) {
+      console.error('Add to cart button not found')
+      return
+    }
 
     this.atcBtn.classList.add('loading')
     this.atcBtn.disabled = true
     this.atcBtn.setAttribute('aria-busy', 'true')
 
     const formData = new FormData(this.form)
+    console.log('Form data:', Object.fromEntries(formData))
 
-    await document.querySelector('cart-container').add(formData)
+    const cartContainer = document.querySelector('cart-container')
+    if (!cartContainer) {
+      console.error('Cart container not found')
+      this.atcBtn.classList.remove('loading')
+      this.atcBtn.disabled = false
+      this.atcBtn.setAttribute('aria-busy', 'false')
+      return
+    }
+
+    try {
+      await cartContainer.add(formData)
+      console.log('Product added to cart successfully')
+    } catch (error) {
+      console.error('Error adding product to cart:', error)
+    }
 
     this.atcBtn.classList.remove('loading')
     this.atcBtn.disabled = false
