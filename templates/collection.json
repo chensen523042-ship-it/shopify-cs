@@ -49,7 +49,7 @@
           "type": "collection",
           "settings": {
             "collection": "mower",
-            "title": ""
+            "title": "MOWER"
           }
         },
         "collection_Fygrwt": {
@@ -106,10 +106,13 @@
         "collection_card_text_align": "text-center",
         "collection_card_img_orientation": "ratio-4x3",
         "collection_card_img_border": "rounded",
+        "collection_card_img_size": 400,
         "collection_card_show_title": true,
-        "collection_card_title_font_size": "fs-lg",
+        "collection_card_title_font_size": "fs-xl",
         "collection_card_title_position": "collection-card-title-bottom",
         "collection_card_show_product_count": true,
+        "collection_card_show_button": false,
+        "collection_card_title_position_new": "below",
         "breakpoint_mobile": 1,
         "breakpoint_tablet": 2,
         "breakpoint_desktop": 3,
