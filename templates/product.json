@@ -239,45 +239,6 @@
       "type": "apps",
       "settings": {}
     },
-    "8b8acb35-e69e-4471-a6cb-d0a09485fb41": {
-      "type": "featured-products",
-      "settings": {
-        "bg_color": "bg-body text-body",
-        "bg_opacity": 100,
-        "bg_gradient": "",
-        "text_color": "text-body",
-        "border_top_width": 0,
-        "border_bottom_width": 0,
-        "border_color": "border-body",
-        "border_opacity": 100,
-        "container_max_width": "",
-        "products": [
-          "wheel",
-          "rtk",
-          "charging-pile"
-        ],
-        "collection": "",
-        "limit": 8,
-        "recommended_mode": true,
-        "recommended_mode_intent": "complementary",
-        "header_title": "Recommended Products",
-        "header_title_font_size": "h3",
-        "header_description": "<p>Add on optional description for this section</p>",
-        "header_description_font_size": "fs-md",
-        "slider_speed": 300,
-        "slider_navigation": true,
-        "slider_pagination": true,
-        "slider_pagination_type": "bullets",
-        "slider_scrollbar": true,
-        "slider_partial_slides_mobile": true,
-        "slider_autoplay": 0,
-        "breakpoint_mobile": 1,
-        "breakpoint_tablet": 2,
-        "breakpoint_desktop": 4,
-        "pt": 2,
-        "pb": 11
-      }
-    },
     "20426219-2b04-4ec4-9f23-1ed81a76c181": {
       "type": "separator",
       "settings": {
@@ -289,13 +250,30 @@
         "pt": 0,
         "pb": 0
       }
+    },
+    "related_products_XDxxid": {
+      "type": "related-products",
+      "name": "Related products",
+      "settings": {
+        "use_recommendations": true,
+        "recommendation_intent": "complementary",
+        "heading": "You may also like",
+        "heading_size": "h1",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "background_color": "bg-body",
+        "text_color": "text-body",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "8f4f1b58-133b-491a-a7b2-8bf2e6fbc583",
     "product_accessories_dmm7NX",
     "1710322973d29fae05",
-    "8b8acb35-e69e-4471-a6cb-d0a09485fb41",
-    "20426219-2b04-4ec4-9f23-1ed81a76c181"
+    "20426219-2b04-4ec4-9f23-1ed81a76c181",
+    "related_products_XDxxid"
   ]
 }
