@@ -1,0 +1,378 @@
+{%- liquid
+  assign recommendations = recommendations.products
+  assign products_to_show = section.settings.products_to_show
+  assign columns_desktop = section.settings.columns_desktop
+  assign columns_mobile = section.settings.columns_mobile
+  assign background_color = section.settings.background_color
+  assign text_color = section.settings.text_color
+  assign heading = section.settings.heading
+  assign heading_size = section.settings.heading_size
+  assign use_recommendations = section.settings.use_recommendations
+  assign recommendation_intent = section.settings.recommendation_intent
+-%}
+
+{%- if use_recommendations and request.page_type == 'product' -%}
+<script>
+  async function loadRecommendations() {
+    const sectionId = '{{ section.id }}'
+    const productId = {{ product.id }}
+    const limit = {{ products_to_show }}
+    const intent = '{{ recommendation_intent }}'
+    
+    // 优先使用 Search & Discovery API
+    const searchDiscoveryUrl = `/recommendations/products.json?product_id=${productId}&limit=${limit}&intent=${intent}`
+    const standardUrl = `{{ routes.product_recommendations_url }}?section_id=${sectionId}&product_id=${productId}&limit=${limit}&intent=${intent}`
+    
+    try {
+      // 尝试 Search & Discovery API
+      const response = await fetch(searchDiscoveryUrl)
+      if (response.ok) {
+        const data = await response.json()
+        if (data.products && data.products.length > 0) {
+          renderProducts(data.products)
+          return
+        }
+      }
+    } catch (error) {
+      console.log('Search & Discovery not available, using standard recommendations')
+    }
+    
+    // 回退到标准推荐
+    try {
+      const response = await fetch(standardUrl)
+      const html = await response.text()
+      const currentSection = document.querySelector('#related-products-{{ section.id }}')
+      if (currentSection) {
+        currentSection.closest('.shopify-section').outerHTML = html
+      }
+    } catch (error) {
+      console.error('Failed to load recommendations:', error)
+    }
+  }
+
+  function renderProducts(products) {
+    const container = document.querySelector('#related-products-{{ section.id }} .product-list')
+    if (!container) return
+    
+    container.innerHTML = products.map(product => `
+      <div class="p-4 p-desktop-5 mb-4 mb-desktop-5" role="list-item">
+        <div class="product-card text-center">
+          <div class="product-card-img-wrapper mb-4">
+            <a href="${product.url}" class="product-card-link">
+              ${product.available === false ? 
+                '<span class="product-sold-out-badge badge">Sold out</span>' : 
+                (product.compare_at_price > product.price ? 
+                  '<span class="product-sale-badge badge">Sale</span>' : '')
+              }
+              <img src="${product.featured_image || product.images?.[0] || ''}" 
+                   alt="${product.title}" 
+                   loading="lazy"
+                   style="width: 100%; height: auto; display: block;">
+            </a>
+            ${product.available ? `
+              <div class="product-card-add-to-cart">
+                <form action="/cart/add" method="post" enctype="multipart/form-data">
+                  <input type="hidden" name="id" value="${product.variants?.[0]?.id || ''}">
+                  <button type="submit" class="btn-add-to-cart" name="add">
+                    Add to cart
+                  </button>
+                </form>
+              </div>
+            ` : ''}
+          </div>
+          <a href="${product.url}" class="product-card-link">
+            <h3 class="product-card-title product-title">${product.title}</h3>
+            <p class="product-card-price product-price mb-4">
+              ${product.compare_at_price > product.price ? `
+                <s class="product-card-price-compare">$${(product.compare_at_price / 100).toFixed(2)}</s>
+                <span class="product-card-price-final product-price-final-sale">$${(product.price / 100).toFixed(2)}</span>
+              ` : `
+                <span class="product-card-price-final">$${(product.price / 100).toFixed(2)}</span>
+              `}
+            </p>
+          </a>
+        </div>
+      </div>
+    `).join('')
+  }
+
+  // 初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadRecommendations)
+  } else {
+    loadRecommendations()
+  }
+
+  // 主题编辑器支持
+  document.addEventListener('shopify:section:load', (e) => {
+    if (e.target.querySelector('#related-products-{{ section.id }}')) {
+      loadRecommendations()
+    }
+  })
+</script>
+{%- endif -%}
+
+{%- if recommendations != blank or use_recommendations -%}
+<div class="{{ background_color }} {{ text_color }}">
+  <div class="section-{{ section.id }}-padding">
+    <div class="page-width" id="related-products-{{ section.id }}">
+      {%- unless heading == blank -%}
+        <div class="title-wrapper">
+          <h2 class="title {{ heading_size }}">{{ heading }}</h2>
+        </div>
+      {%- endunless -%}
+      
+      <div class="product-list mx-n4 mx-desktop-n5 mb-0 row 
+        {{ columns_mobile | prepend: 'row-cols-' }}
+        {{ columns_desktop | prepend: 'row-cols-desktop-' }}" 
+        role="list">
+        {%- for product in recommendations limit: products_to_show -%}
+          <div class="p-4 p-desktop-5 mb-4 mb-desktop-5" role="list-item">
+            {% render 'product-card', product: product %}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Related products",
+  "tag": "section",
+  "class": "section",
+  "presets": [
+    {
+      "name": "Related products"
+    }
+  ],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Display products that are related to the current product. This section will automatically show recommended products based on Shopify's recommendation engine. For enhanced AI-powered recommendations, install the Search & Discovery app."
+    },
+    {
+      "type": "checkbox",
+      "id": "use_recommendations",
+      "default": true,
+      "label": "Use Shopify recommendations",
+      "info": "Enable to use Shopify's AI-powered product recommendations. Requires Search & Discovery app for enhanced recommendations."
+    },
+    {
+      "type": "select",
+      "id": "recommendation_intent",
+      "options": [
+        {
+          "value": "related",
+          "label": "Related products"
+        },
+        {
+          "value": "complementary",
+          "label": "Complementary products"
+        }
+      ],
+      "default": "related",
+      "label": "Recommendation type",
+      "info": "Choose the type of product recommendations to display"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "You may also like",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        },
+        {
+          "value": "hxl",
+          "label": "Extra large"
+        },
+        {
+          "value": "hxxl",
+          "label": "XX Large"
+        }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "Number of columns on desktop"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "Number of columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 column"
+        },
+        {
+          "value": "2",
+          "label": "2 columns"
+        }
+      ]    
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "bg-body",
+      "options": [
+        {
+          "value": "bg-primary",
+          "label": "Primary"
+        },
+        {
+          "value": "bg-secondary",
+          "label": "Secondary"
+        },
+        {
+          "value": "bg-body",
+          "label": "Body"
+        },
+        {
+          "value": "bg-white",
+          "label": "White"
+        },
+        {
+          "value": "bg-light",
+          "label": "Light"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "text-body",
+      "options": [
+        {
+          "value": "text-primary",
+          "label": "Primary"
+        },
+        {
+          "value": "text-secondary",
+          "label": "Secondary"
+        },
+        {
+          "value": "text-body",
+          "label": "Body"
+        },
+        {
+          "value": "text-white",
+          "label": "White"
+        },
+        {
+          "value": "text-dark",
+          "label": "Dark"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .product-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    transition: all .2s ease-out;
+  }
+
+  .product-list .product-card {
+    text-align: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .title-wrapper {
+    margin-bottom: 2rem;
+  }
+
+  .title {
+    margin: 0;
+  }
+
+  .page-width {
+    max-width: 120rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .page-width {
+      padding: 0 5rem;
+    }
+  }
+</style>
